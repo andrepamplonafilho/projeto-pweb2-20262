@@ -1,11 +1,5 @@
 -- Dados iniciais do Marketplace IFPB Cajazeiras. Migração do Flyway, aplicada pela API ao subir.
 -- Guia completo: docs/banco-de-dados.md
---
--- ANTES DA PRIMEIRA INICIALIZAÇÃO (primeiro "docker compose up"): edite à vontade.
---   Troque as categorias e adapte ou apague os dados de exemplo.
--- DEPOIS: não edite mais este arquivo. Crie uma migração nova (V2_1__categorias.sql, por exemplo).
---   Se editar mesmo assim, a API não sobe; recrie o banco com:
---   docker compose down -v && docker compose up --build
 
 -- Cursos do campus
 INSERT INTO curso (nome) VALUES
