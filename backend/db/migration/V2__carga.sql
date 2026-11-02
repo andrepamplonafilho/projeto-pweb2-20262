@@ -20,10 +20,15 @@ INSERT INTO curso (nome) VALUES
   ('Técnico Subsequente em Eletromecânica'),
   ('Técnico em Meio Ambiente');
 
--- Categorias: troque ou acrescente as da sua equipe. Mantenha os ids: os anúncios de exemplo usam categoria_id.
--- O slug vai na URL da busca (?categoria=eletronicos): minúsculas, sem acentos, hífen no lugar de espaços.
+-- Categorias do marketplace de aulas, organizadas por área dos cursos do campus.
+-- O slug vai na URL da busca (?categoria=computacao-e-programacao): minúsculas, sem acentos, hífen no lugar de espaços.
 INSERT INTO categoria (id, nome, slug) VALUES
-  (1, 'Eletrônicos', 'eletronicos');
+  (1, 'Computação e Programação', 'computacao-e-programacao'),
+  (2, 'Automação e Eletromecânica', 'automacao-e-eletromecanica'),
+  (3, 'Construção Civil e Edificações', 'construcao-civil-e-edificacoes'),
+  (4, 'Matemática', 'matematica'),
+  (5, 'Meio Ambiente', 'meio-ambiente'),
+  (6, 'Outras áreas', 'outras-areas');
 
 -- ---------------------------------------------------------------------------
 -- Dados de exemplo, para testar a busca. Opcional: pode adaptar ou apagar daqui para baixo.
