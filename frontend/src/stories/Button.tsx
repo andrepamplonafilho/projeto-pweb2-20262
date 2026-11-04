@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './button.css';
 
 export interface ButtonProps {
@@ -13,7 +11,7 @@ export interface ButtonProps {
   label: string;
   /** Optional click handler */
   onClick?: () => void;
-}
+} 
 
 /** Primary UI component for user interaction */
 export const Button = ({
