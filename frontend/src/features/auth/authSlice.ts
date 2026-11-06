@@ -54,6 +54,23 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   tokenStorage.clear()
 })
 
+export const restaurarSessao = createAsyncThunk<
+  UsuarioLogado,
+  void,
+  { rejectValue: ErroAuth }
+>('auth/restaurarSessao', async (_, { rejectWithValue }) => {
+  const token = tokenStorage.get()
+  if (!token) {
+    return rejectWithValue({ mensagem: 'Sem sessão ativa.', campos: {} })
+  }
+
+  try {
+    return await api<UsuarioLogado>('/usuarios/eu')
+  } catch (erro) {
+    return rejectWithValue(extrairErro(erro))
+  }
+})
+
 // Reducers compartilhados: login e restaurar sessão vão reaproveitar estes mesmos.
 function comecou(state: AuthState) {
   state.status = 'carregando'
@@ -67,6 +84,12 @@ function autenticou(state: AuthState, action: { payload: Sessao }) {
   state.token = action.payload.token
 }
 
+function restaurou(state: AuthState, action: { payload: UsuarioLogado }) {
+  state.status = 'ocioso'
+  state.usuario = action.payload
+  state.token = tokenStorage.get()
+}
+
 function falhou(state: AuthState, action: { payload?: ErroAuth }) {
   state.status = 'erro'
   state.erro = action.payload?.mensagem ?? MENSAGEM_PADRAO
@@ -76,6 +99,12 @@ function falhou(state: AuthState, action: { payload?: ErroAuth }) {
 function desautenticou(state: AuthState) {
   state.usuario = null
   state.token = null
+  state.status = 'ocioso'
+  state.erro = null
+  state.campos = {}
+}
+
+function restauracaoFalhou(state: AuthState) {
   state.status = 'ocioso'
   state.erro = null
   state.campos = {}
@@ -108,6 +137,9 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, autenticou)
       .addCase(login.rejected, falhou)
       .addCase(logout.fulfilled, desautenticou)
+      .addCase(restaurarSessao.pending, comecou)
+      .addCase(restaurarSessao.fulfilled, restaurou)
+      .addCase(restaurarSessao.rejected, restauracaoFalhou)
   },
 })
 
