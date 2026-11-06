@@ -50,6 +50,10 @@ export const login = createAsyncThunk<Sessao, LoginRequest, { rejectValue: ErroA
   },
 )
 
+export const logout = createAsyncThunk('auth/logout', async () => {
+  tokenStorage.clear()
+})
+
 // Reducers compartilhados: login e restaurar sessão vão reaproveitar estes mesmos.
 function comecou(state: AuthState) {
   state.status = 'carregando'
@@ -69,6 +73,14 @@ function falhou(state: AuthState, action: { payload?: ErroAuth }) {
   state.campos = action.payload?.campos ?? {}
 }
 
+function desautenticou(state: AuthState) {
+  state.usuario = null
+  state.token = null
+  state.status = 'ocioso'
+  state.erro = null
+  state.campos = {}
+}
+
 const initialState: AuthState = {
   usuario: null,
   token: tokenStorage.get(),
@@ -86,12 +98,6 @@ const authSlice = createSlice({
       state.erro = null
       state.campos = {}
     },
-    // Provisório
-    sair(state) {
-      state.usuario = null
-      state.token = null
-      tokenStorage.clear()
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -101,8 +107,9 @@ const authSlice = createSlice({
       .addCase(login.pending, comecou)
       .addCase(login.fulfilled, autenticou)
       .addCase(login.rejected, falhou)
+      .addCase(logout.fulfilled, desautenticou)
   },
 })
 
-export const { limparErro, sair } = authSlice.actions
+export const { limparErro } = authSlice.actions
 export default authSlice.reducer
