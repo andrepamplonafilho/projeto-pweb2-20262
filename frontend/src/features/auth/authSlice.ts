@@ -32,7 +32,9 @@ export const cadastrar = createAsyncThunk<Sessao, CadastroRequest, { rejectValue
   'auth/cadastrar',
   async (dados, { rejectWithValue }) => {
     try {
-      return await api<Sessao>('/auth/cadastro', { method: 'POST', body: dados })
+      const sessao = await api<Sessao>('/auth/cadastro', { method: 'POST', body: dados })
+      tokenStorage.set(sessao.token)
+      return sessao
     } catch (erro) {
       return rejectWithValue(extrairErro(erro))
     }
@@ -43,7 +45,9 @@ export const login = createAsyncThunk<Sessao, LoginRequest, { rejectValue: ErroA
   'auth/login',
   async (dados, { rejectWithValue }) => {
     try {
-      return await api<Sessao>('/auth/login', { method: 'POST', body: dados })
+      const sessao = await api<Sessao>('/auth/login', { method: 'POST', body: dados })
+      tokenStorage.set(sessao.token)
+      return sessao
     } catch (erro) {
       return rejectWithValue(extrairErro(erro))
     }
@@ -127,6 +131,9 @@ const authSlice = createSlice({
       state.erro = null
       state.campos = {}
     },
+    sessaoExpirada(state) {
+      desautenticou(state)
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -143,5 +150,5 @@ const authSlice = createSlice({
   },
 })
 
-export const { limparErro } = authSlice.actions
+export const { limparErro, sessaoExpirada } = authSlice.actions
 export default authSlice.reducer
