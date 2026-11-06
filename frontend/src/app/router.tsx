@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import Pagina from './Pagina'
 import RotaProtegida from './RotaProtegida'
+import NaoEncontrada from './NaoEncontrada'
 
 export const router = createBrowserRouter([
   { path: '/login', element: <Pagina titulo="Login" /> },
@@ -24,4 +25,5 @@ export const router = createBrowserRouter([
     element: <RotaProtegida admin />,
     children: [{ path: '/admin', element: <Pagina titulo="Administração" /> }],
   },
+  { path: '*', element: <NaoEncontrada /> },
 ])
