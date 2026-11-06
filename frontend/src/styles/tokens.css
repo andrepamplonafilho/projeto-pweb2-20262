@@ -1,0 +1,71 @@
+:root {
+  /* Marca */
+  --color-primary-strong: #0b4d42;
+  --color-primary: #0f6a60;
+  --color-accent: #2a9d8f;
+  --color-primary-soft: #e2f1df;
+  --color-on-primary: #ffffff;
+
+  /* Neutros */
+  --color-text: #333333;
+  --color-text-secondary: #5f6368;
+  --color-surface: #ffffff;
+  --color-surface-muted: #e6e6e6;
+  --color-border: #d4d4d4;
+
+  /* Estados: erro */
+  --color-error: #c62828;
+  --color-error-bg: #fde8e8;
+  --color-error-text: #9b1c1c;
+
+  /* Estados: aviso */
+  --color-warning-bg: #fff4d6;
+  --color-warning-text: #7a4b00;
+
+  /* Estados: sucesso */
+  --color-success-bg: #ddf3e4;
+  --color-success-text: #14532d;
+
+  /* Estados: neutro (pausado, removido) */
+  --color-neutral-bg: #ededed;
+  --color-neutral-text: #4b4b4b;
+
+  /* Família */
+  --font-sans: 'Nunito Variable', system-ui, sans-serif;
+
+  /* Tamanhos */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+
+  /* Pesos */
+  --font-weight-regular: 400;
+  --font-weight-medium: 600;
+  --font-weight-bold: 800;
+
+  /* Altura de linha */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+
+  /* Espaçamento (base 4px) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+
+  /* Raio de borda */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.5rem;
+  --radius-pill: 9999px;
+
+  /* Sombra */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
