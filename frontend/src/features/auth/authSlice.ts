@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { api, tokenStorage } from '../../shared/api/client'
 import { ApiError } from '../../shared/api/errors'
-import type { CadastroRequest, Sessao, UsuarioLogado } from '../../shared/api/tipos'
+import type { CadastroRequest, LoginRequest, Sessao, UsuarioLogado } from '../../shared/api/tipos'
 
 export type StatusAuth = 'ocioso' | 'carregando' | 'erro'
 
@@ -33,6 +33,17 @@ export const cadastrar = createAsyncThunk<Sessao, CadastroRequest, { rejectValue
   async (dados, { rejectWithValue }) => {
     try {
       return await api<Sessao>('/auth/cadastro', { method: 'POST', body: dados })
+    } catch (erro) {
+      return rejectWithValue(extrairErro(erro))
+    }
+  },
+)
+
+export const login = createAsyncThunk<Sessao, LoginRequest, { rejectValue: ErroAuth }>(
+  'auth/login',
+  async (dados, { rejectWithValue }) => {
+    try {
+      return await api<Sessao>('/auth/login', { method: 'POST', body: dados })
     } catch (erro) {
       return rejectWithValue(extrairErro(erro))
     }
@@ -87,6 +98,9 @@ const authSlice = createSlice({
       .addCase(cadastrar.pending, comecou)
       .addCase(cadastrar.fulfilled, autenticou)
       .addCase(cadastrar.rejected, falhou)
+      .addCase(login.pending, comecou)
+      .addCase(login.fulfilled, autenticou)
+      .addCase(login.rejected, falhou)
   },
 })
 
