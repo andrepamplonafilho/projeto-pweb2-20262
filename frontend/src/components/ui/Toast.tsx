@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
-import { Alert } from './Alert.tsx'
+import { Alert } from './Alert'
 import styles from './Toast.module.css'
 
-type ToastProps = {
+interface ToastProps {
   variant?: 'success' | 'warning' | 'error' | 'info'
   title?: string
-  children?: ReactNode
-  duration: number
+  children: ReactNode
+  duration?: number
   onClose: () => void
 }
 
@@ -20,10 +20,9 @@ export function Toast({ variant = 'info', title, children, duration = 5000, onCl
 
   useEffect(() => {
     if (!duration) return
-
     const timer = setTimeout(() => onCloseRef.current(), duration)
     return () => clearTimeout(timer)
-  })
+  }, [duration])
 
   return (
     <div className={styles.toast}>
@@ -34,10 +33,10 @@ export function Toast({ variant = 'info', title, children, duration = 5000, onCl
   )
 }
 
-type ToastViewportProps = {
+interface ToastViewportProps {
   children: ReactNode
 }
 
-export function ToastViewportProps({ children }: ToastViewportProps) {
+export function ToastViewport({ children }: ToastViewportProps) {
   return <div className={styles.viewport}>{children}</div>
 }
