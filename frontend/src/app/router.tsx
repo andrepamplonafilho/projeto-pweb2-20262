@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 import Pagina from './Pagina'
 import RotaProtegida from './RotaProtegida'
 import NaoEncontrada from './NaoEncontrada'
-import { Layout } from '../components/layout/Layout'
+import { Layout } from '../components/layout/Layout/Layout'
 
 export const router = createBrowserRouter([
   { path: '/login', element: <Pagina titulo="Login" /> },
