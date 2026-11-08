@@ -1,5 +1,5 @@
 import styles from './EmptyState.module.css'
-import { Button } from './Button.tsx'
+import { Button } from '../Button'
 
 type EmptyStateProps = {
   title: string

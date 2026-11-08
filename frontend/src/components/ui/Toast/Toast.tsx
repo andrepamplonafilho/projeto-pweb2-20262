@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
-import { Alert } from './Alert'
+import { Alert } from '../Alert'
 import styles from './Toast.module.css'
 
 interface ToastProps {

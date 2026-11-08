@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Field } from './Field'
-import { Input } from './Input'
-import { Textarea } from './Textarea'
-import { Select } from './Select'
+import { Input } from '../Input'
+import { Textarea } from '../Textarea'
+import { Select } from '../Select'
 
 const meta: Meta<typeof Field> = {
   title: 'UI/Field',

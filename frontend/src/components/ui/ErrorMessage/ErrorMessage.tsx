@@ -1,5 +1,5 @@
 import styles from './ErrorMessage.module.css'
-import { Button } from './Button'
+import { Button } from '../Button'
 
 interface ErrorMessageProps {
   title?: string
