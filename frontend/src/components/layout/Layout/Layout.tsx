@@ -1,10 +1,17 @@
-import { Outlet } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Outlet, useNavigate } from 'react-router-dom'
+import type { AppDispatch } from '../../../app/store'
+import { logout } from '../../../features/auth/authSlice'
 import { Header } from '../Header/Header'
 import styles from './Layout.module.css'
 
 export function Layout() {
-  const handleLogout = () => {
-    // será ligado ao thunk de logout no próximo passo
+  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    await dispatch(logout())
+    navigate('/login', { replace: true })
   }
 
   return (
