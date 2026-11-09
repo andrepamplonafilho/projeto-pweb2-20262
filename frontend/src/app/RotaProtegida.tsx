@@ -1,8 +1,14 @@
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAppSelector } from './hooks'
 
 export default function RotaProtegida({ admin = false }: { admin?: boolean }) {
   const token = useAppSelector((s) => s.auth.token)
-  if (!token) return <Navigate to={admin ? '/admin/login' : '/login'} replace />
+  const location = useLocation()
+
+  if (!token) {
+    const destino = admin ? '/admin/login' : '/login'
+    const from = location.pathname + location.search
+    return <Navigate to={destino} replace state={{ from }} />
+  }
   return <Outlet />
 }
