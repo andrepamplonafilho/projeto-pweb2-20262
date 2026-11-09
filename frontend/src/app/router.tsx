@@ -3,10 +3,11 @@ import Pagina from './Pagina'
 import RotaProtegida from './RotaProtegida'
 import NaoEncontrada from './NaoEncontrada'
 import { Layout } from '../components/layout/Layout/Layout'
+import CadastroPage from '../features/auth/CadastroPage'
 
 export const router = createBrowserRouter([
   { path: '/login', element: <Pagina titulo="Login" /> },
-  { path: '/cadastro', element: <Pagina titulo="Cadastro" /> },
+  { path: '/cadastro', element: <CadastroPage /> },
   { path: '/admin/login', element: <Pagina titulo="Login do administrador" /> },
   {
     element: <RotaProtegida />,
