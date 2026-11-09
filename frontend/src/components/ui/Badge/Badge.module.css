@@ -1,0 +1,35 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+}
+
+.ativo {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.pausado {
+  background: var(--color-neutral-bg);
+  color: var(--color-neutral-text);
+}
+
+.reservado {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.vendido,
+.concluido {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+}
+
+.removido {
+  background: var(--color-error-bg);
+  color: var(--color-error-text);
+}

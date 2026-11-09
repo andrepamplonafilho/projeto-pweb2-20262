@@ -5,6 +5,9 @@ import { RouterProvider } from 'react-router-dom'
 import { store } from './app/store'
 import { router } from './app/router'
 import { restaurarSessao } from './features/auth/authSlice'
+import '@fontsource-variable/nunito'
+import './styles/tokens.css'
+import './styles/global.css'
 
 store.dispatch(restaurarSessao())
 
