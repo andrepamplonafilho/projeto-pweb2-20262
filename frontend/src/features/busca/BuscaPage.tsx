@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import {
-  Button,
   Card,
   EmptyState,
   ErrorMessage,
   Field,
   Input,
+  Pagination,
   Select,
   Spinner,
 } from '../../components/ui'
@@ -194,34 +194,20 @@ export default function BuscaPage() {
                 ? `${paginaAnuncios.total} ${paginaAnuncios.total === 1 ? 'anúncio' : 'anúncios'}`
                 : 'Anúncios'}
             </h2>
-            <Field label="Itens por página">
-              <Select
-                value={String(filtros.tamanho)}
-                onChange={(event) =>
-                  atualizarFiltros({ tamanho: Number(event.target.value) as 5 | 10 | 25 | 50 })
-                }
-              >
-                {[5, 10, 25, 50].map((tamanho) => (
-                  <option key={tamanho} value={tamanho}>
-                    {tamanho}
-                  </option>
-                ))}
-              </Select>
-            </Field>
           </div>
 
-          {faixaDePrecoInvalida ? (
-            <p className={styles.validationMessage} role="status">
-              Corrija a faixa de preço para buscar anúncios.
-            </p>
-          ) : carregando ? (
-            <div className={styles.status}>
-              <Spinner label="Carregando anúncios" />
-            </div>
-          ) : erro ? (
-            <ErrorMessage message={erro} onRetry={() => window.location.reload()} />
-          ) : paginaAnuncios?.itens.length ? (
-            <>
+          <>
+            {faixaDePrecoInvalida ? (
+              <p className={styles.validationMessage} role="status">
+                Corrija a faixa de preço para buscar anúncios.
+              </p>
+            ) : carregando ? (
+              <div className={styles.status}>
+                <Spinner label="Carregando anúncios" />
+              </div>
+            ) : erro ? (
+              <ErrorMessage message={erro} onRetry={() => window.location.reload()} />
+            ) : paginaAnuncios?.itens.length ? (
               <div className={styles.grid}>
                 {paginaAnuncios.itens.map((anuncio: AnuncioResumo) => (
                   <Card
@@ -234,34 +220,25 @@ export default function BuscaPage() {
                   />
                 ))}
               </div>
-              {paginaAnuncios.totalPaginas > 1 && (
-                <nav className={styles.pagination} aria-label="Paginação dos anúncios">
-                  <Button
-                    variant="secondary"
-                    disabled={filtros.pagina <= 1}
-                    onClick={() => atualizarFiltros({ pagina: filtros.pagina - 1 })}
-                  >
-                    Anterior
-                  </Button>
-                  <span>
-                    Página {filtros.pagina} de {paginaAnuncios.totalPaginas}
-                  </span>
-                  <Button
-                    variant="secondary"
-                    disabled={filtros.pagina >= paginaAnuncios.totalPaginas}
-                    onClick={() => atualizarFiltros({ pagina: filtros.pagina + 1 })}
-                  >
-                    Próxima
-                  </Button>
-                </nav>
-              )}
-            </>
-          ) : (
-            <EmptyState
-              title="Nenhum anúncio encontrado"
-              description="Tente mudar os filtros para encontrar outros anúncios."
-            />
-          )}
+            ) : (
+              <EmptyState
+                title="Nenhum anúncio encontrado"
+                description="Tente mudar os filtros para encontrar outros anúncios."
+              />
+            )}
+
+            {paginaAnuncios && !faixaDePrecoInvalida && !erro && (
+              <div className={styles.pagination}>
+                <Pagination
+                  currentPage={filtros.pagina}
+                  totalPages={paginaAnuncios.totalPaginas}
+                  pageSize={filtros.tamanho}
+                  onPageChange={(pagina) => atualizarFiltros({ pagina })}
+                  onPageSizeChange={(tamanho) => atualizarFiltros({ tamanho })}
+                />
+              </div>
+            )}
+          </>
         </div>
       </div>
     </section>

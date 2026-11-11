@@ -2,17 +2,23 @@ import { Button } from '../Button'
 import { Select } from '../Select'
 import styles from './Pagination.module.css'
 
-const TAMANHOS_PADRAO = [5, 10, 25, 50]
+export type PageSize = 5 | 10 | 25 | 50
+
+const TAMANHOS_PADRAO: PageSize[] = [5, 10, 25, 50]
 
 type PaginaVisivel = number | 'reticencias'
+
+function ehTamanhoPagina(valor: number): valor is PageSize {
+  return TAMANHOS_PADRAO.some((tamanho) => tamanho === valor)
+}
 
 interface PaginationProps {
   currentPage: number
   totalPages: number
-  pageSize: number
-  pageSizeOptions?: readonly number[]
+  pageSize: PageSize
+  pageSizeOptions?: readonly PageSize[]
   onPageChange: (page: number) => void
-  onPageSizeChange: (pageSize: number) => void
+  onPageSizeChange: (pageSize: PageSize) => void
 }
 
 function paginasVisiveis(paginaAtual: number, totalPaginas: number): PaginaVisivel[] {
@@ -43,6 +49,8 @@ export function Pagination({
   onPageSizeChange,
 }: PaginationProps) {
   const temPaginas = totalPages > 1
+  const paginaAtualVisivel =
+    totalPages > 0 ? Math.min(Math.max(currentPage, 1), totalPages) : currentPage
 
   return (
     <div className={styles.container}>
@@ -51,14 +59,14 @@ export function Pagination({
           <Button
             variant="secondary"
             size="sm"
-            disabled={currentPage <= 1}
-            onClick={() => onPageChange(currentPage - 1)}
+            disabled={paginaAtualVisivel <= 1}
+            onClick={() => onPageChange(paginaAtualVisivel - 1)}
           >
             Anterior
           </Button>
 
           <ol className={styles.pages}>
-            {paginasVisiveis(currentPage, totalPages).map((pagina, indice) =>
+            {paginasVisiveis(paginaAtualVisivel, totalPages).map((pagina, indice) =>
               pagina === 'reticencias' ? (
                 <li key={`reticencias-${indice}`} aria-hidden="true" className={styles.ellipsis}>
                   …
@@ -66,10 +74,10 @@ export function Pagination({
               ) : (
                 <li key={pagina}>
                   <Button
-                    variant={pagina === currentPage ? 'primary' : 'secondary'}
+                    variant={pagina === paginaAtualVisivel ? 'primary' : 'secondary'}
                     size="sm"
                     aria-label={`Página ${pagina}`}
-                    aria-current={pagina === currentPage ? 'page' : undefined}
+                    aria-current={pagina === paginaAtualVisivel ? 'page' : undefined}
                     onClick={() => onPageChange(pagina)}
                   >
                     {pagina}
@@ -80,14 +88,14 @@ export function Pagination({
           </ol>
 
           <span className={styles.pageStatus} aria-live="polite">
-            Página {currentPage} de {totalPages}
+            Página {paginaAtualVisivel} de {totalPages}
           </span>
 
           <Button
             variant="secondary"
             size="sm"
-            disabled={currentPage >= totalPages}
-            onClick={() => onPageChange(currentPage + 1)}
+            disabled={paginaAtualVisivel >= totalPages}
+            onClick={() => onPageChange(paginaAtualVisivel + 1)}
           >
             Próxima
           </Button>
@@ -99,7 +107,10 @@ export function Pagination({
         <Select
           aria-label="Itens por página"
           value={String(pageSize)}
-          onChange={(event) => onPageSizeChange(Number(event.target.value))}
+          onChange={(event) => {
+            const tamanho = Number(event.target.value)
+            if (ehTamanhoPagina(tamanho)) onPageSizeChange(tamanho)
+          }}
         >
           {pageSizeOptions.map((option) => (
             <option key={option} value={option}>
