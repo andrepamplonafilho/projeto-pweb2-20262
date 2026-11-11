@@ -45,13 +45,21 @@ export function lerFiltrosBusca(params: URLSearchParams): FiltrosBusca {
   const categoria = params.get('categoria')?.trim()
   const ordem = params.get('ordem')
   const direcao = params.get('direcao')
+  const ordemValida = ordem === 'preco' ? 'preco' : 'data'
 
   return {
     categoria: categoria || undefined,
     precoMin: lerNumeroNaoNegativo(params.get('precoMin')),
     precoMax: lerNumeroNaoNegativo(params.get('precoMax')),
-    ordem: ordem === 'preco' ? 'preco' : 'data',
-    direcao: direcao === 'asc' ? 'asc' : 'desc',
+    ordem: ordemValida,
+    direcao:
+      direcao === 'asc'
+        ? 'asc'
+        : direcao === 'desc'
+          ? 'desc'
+          : ordemValida === 'preco'
+            ? 'asc'
+            : 'desc',
     pagina: lerPagina(params.get('pagina')),
     tamanho: lerTamanho(params.get('tamanho')),
   }
