@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router'
 import { Alert, Button, Field, Input, Select } from '../../components/ui'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { cadastrar, limparErro } from './authSlice'
 import { useCursos } from './useCursos'
+import styles from './AuthPage.module.css'
 
 const DOMINIO = '@academico.ifpb.edu.br'
 
@@ -67,68 +68,75 @@ export default function CadastroPage() {
   const erroDe = (campo: string) => errosLocais[campo] ?? campos[campo]
 
   return (
-    <main>
-      <h1>Cadastro</h1>
-      <form onSubmit={aoEnviar} noValidate>
-        {erro && <Alert variant="error">{erro}</Alert>}
-        {erroCursos && <Alert variant="warning">{erroCursos}</Alert>}
+    <main className={styles.page}>
+      <section className={styles.card} aria-labelledby="cadastro-title">
+        <header className={styles.header}>
+          <h1 id="cadastro-title" className={styles.title}>
+            Cadastro
+          </h1>
+          <p className={styles.subtitle}>Crie sua conta com seu e-mail institucional.</p>
+        </header>
+        <form className={styles.form} onSubmit={aoEnviar} noValidate>
+          {erro && <Alert variant="error">{erro}</Alert>}
+          {erroCursos && <Alert variant="warning">{erroCursos}</Alert>}
 
-        <Field label="Nome" required error={erroDe('nome')}>
-          <Input value={nome} onChange={(e) => setNome(e.target.value)} autoComplete="name" />
-        </Field>
+          <Field label="Nome" required error={erroDe('nome')}>
+            <Input value={nome} onChange={(e) => setNome(e.target.value)} autoComplete="name" />
+          </Field>
 
-        <Field label="E-mail institucional" required error={erroDe('email')}>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={`seunome${DOMINIO}`}
-            autoComplete="email"
-          />
-        </Field>
+          <Field label="E-mail institucional" required error={erroDe('email')}>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={`seunome${DOMINIO}`}
+              autoComplete="email"
+            />
+          </Field>
 
-        <Field label="Senha" required error={erroDe('senha')}>
-          <Input
-            type="password"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            autoComplete="new-password"
-          />
-        </Field>
+          <Field label="Senha" required error={erroDe('senha')}>
+            <Input
+              type="password"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              autoComplete="new-password"
+            />
+          </Field>
 
-        <Field label="Curso" required error={erroDe('cursoId')}>
-          <Select
-            value={cursoId}
-            onChange={(e) => setCursoId(e.target.value)}
-            disabled={carregandoCursos}
-          >
-            <option value="">{carregandoCursos ? 'Carregando cursos...' : 'Selecione...'}</option>
-            {cursos.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.nome}
-              </option>
-            ))}
-          </Select>
-        </Field>
+          <Field label="Curso" required error={erroDe('cursoId')}>
+            <Select
+              value={cursoId}
+              onChange={(e) => setCursoId(e.target.value)}
+              disabled={carregandoCursos}
+            >
+              <option value="">{carregandoCursos ? 'Carregando cursos...' : 'Selecione...'}</option>
+              {cursos.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.nome}
+                </option>
+              ))}
+            </Select>
+          </Field>
 
-        <Field label="Telefone/WhatsApp (opcional)" error={erroDe('telefone')}>
-          <Input
-            type="tel"
-            value={telefone}
-            onChange={(e) => setTelefone(e.target.value)}
-            placeholder="(83) 99999-0000"
-            autoComplete="tel"
-          />
-        </Field>
+          <Field label="Telefone/WhatsApp (opcional)" error={erroDe('telefone')}>
+            <Input
+              type="tel"
+              value={telefone}
+              onChange={(e) => setTelefone(e.target.value)}
+              placeholder="(83) 99999-0000"
+              autoComplete="tel"
+            />
+          </Field>
 
-        <Button type="submit" disabled={enviando || carregandoCursos}>
-          {enviando ? 'Cadastrando...' : 'Cadastrar'}
-        </Button>
+          <Button className={styles.submit} type="submit" disabled={enviando || carregandoCursos}>
+            {enviando ? 'Cadastrando...' : 'Cadastrar'}
+          </Button>
 
-        <p>
-          Já tem conta? <Link to="/login">Entrar</Link>
-        </p>
-      </form>
+          <p className={styles.footer}>
+            Já tem conta? <Link to="/login">Entrar</Link>
+          </p>
+        </form>
+      </section>
     </main>
   )
 }
