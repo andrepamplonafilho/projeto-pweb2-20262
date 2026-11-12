@@ -1,0 +1,150 @@
+.page {
+  width: min(100% - 2rem, 76rem);
+  margin: 0 auto;
+  padding: var(--space-6) 0;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: var(--space-4);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+}
+
+.backLink:hover,
+.editLink:hover,
+.sellerLink:hover {
+  text-decoration: underline;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.details {
+  min-width: 0;
+}
+
+.sellerLink:focus-visible,
+.editLink:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.details {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.modality {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.price {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.state {
+  width: fit-content;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-bg);
+  color: var(--color-neutral-text);
+}
+
+.attributes {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.attributes div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.45fr) 1fr;
+  gap: var(--space-2);
+}
+
+.attributes dt {
+  color: var(--color-text-secondary);
+}
+
+.attributes dd {
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+}
+
+.description,
+.seller {
+  display: grid;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.description h2,
+.seller h2 {
+  font-size: var(--font-size-lg);
+}
+
+.description p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.sellerLink,
+.editLink {
+  width: fit-content;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.actions,
+.stateControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.ownerActions {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.stateControls select {
+  min-width: 9rem;
+}
+
+.error {
+  color: var(--color-error-text);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-8);
+}
+
+@media (max-width: 50rem) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 36rem) {
+  .page {
+    width: min(100% - 1rem, 76rem);
+  }
+
+  .attributes div {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

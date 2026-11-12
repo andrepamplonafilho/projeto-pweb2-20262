@@ -1,0 +1,82 @@
+.page {
+  width: min(100% - 2rem, 52rem);
+  margin: 0 auto;
+  padding: var(--space-6) 0;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: var(--space-4);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.subtitle {
+  margin-top: var(--space-2);
+  color: var(--color-text-secondary);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.errorSummary {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-error-bg);
+  color: var(--color-error-text);
+}
+
+.photoField {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.photoLabel {
+  font-weight: var(--font-weight-bold);
+}
+
+.fieldError {
+  color: var(--color-error-text);
+  font-size: var(--font-size-sm);
+}
+
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: var(--space-3);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-2);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-8);
+}
+
+@media (max-width: 36rem) {
+  .page {
+    width: min(100% - 1rem, 52rem);
+  }
+
+  .form {
+    padding: var(--space-3);
+  }
+}
