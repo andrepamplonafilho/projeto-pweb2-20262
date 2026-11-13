@@ -1,0 +1,57 @@
+.gallery {
+  min-width: 0;
+}
+
+.mainPhoto {
+  display: grid;
+  min-height: 20rem;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+}
+
+.mainPhoto img {
+  width: 100%;
+  max-height: 38rem;
+  object-fit: contain;
+}
+
+.thumbnails {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  overflow-x: auto;
+}
+
+.thumbnail {
+  flex: 0 0 5rem;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+}
+
+.thumbnail img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+}
+
+.thumbnail.selected {
+  border-color: var(--color-primary);
+}
+
+.thumbnail:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 50rem) {
+  .mainPhoto {
+    min-height: 15rem;
+  }
+}

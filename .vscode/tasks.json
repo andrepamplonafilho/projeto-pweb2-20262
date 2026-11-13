@@ -1,0 +1,34 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Iniciar frontend Vite",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"frontend",
+				"run",
+				"dev",
+				"--",
+				"--host",
+				"127.0.0.1"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verificar build frontend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"frontend",
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}
