@@ -5,9 +5,10 @@ import NaoEncontrada from './NaoEncontrada'
 import { Layout } from '../components/layout/Layout/Layout'
 import CadastroPage from '../features/auth/CadastroPage'
 import LoginPage from '../features/auth/LoginPage'
+import BuscaPage from '../features/busca/BuscaPage'
 
 export const router = createBrowserRouter([
-   { path: '/login', element: <LoginPage /> },
+  { path: '/login', element: <LoginPage /> },
   { path: '/cadastro', element: <CadastroPage /> },
   { path: '/admin/login', element: <Pagina titulo="Login do administrador" /> },
   {
@@ -17,8 +18,8 @@ export const router = createBrowserRouter([
         element: <Layout />,
         children: [
           { path: '/', element: <Navigate to="/vendas" replace /> },
-          { path: '/vendas', element: <Pagina titulo="Vendas" /> },
-          { path: '/doacoes', element: <Pagina titulo="Doações" /> },
+          { path: '/vendas', element: <BuscaPage /> },
+          { path: '/doacoes', element: <BuscaPage /> },
           { path: '/perfil', element: <Pagina titulo="Meu perfil" /> },
           { path: '/perfil/editar', element: <Pagina titulo="Editar perfil" /> },
           { path: '/usuarios/:id', element: <Pagina titulo="Perfil do usuário" /> },
