@@ -14,14 +14,31 @@ const TIPOS_ACEITOS = ['image/jpeg', 'image/png', 'image/webp']
 const TAMANHO_MAXIMO_BYTES = 5 * 1024 * 1024 // 5 MB
 
 export default function PerfilEditarPage() {
+  const usuario = useAppSelector((state) => state.auth.usuario)
+
+  if (!usuario) {
+    return (
+      <div className={styles.container}>
+        <Spinner label="Carregando perfil..." />
+      </div>
+    )
+  }
+
+  return <PerfilEditarForm key={usuario.id} usuario={usuario} />
+}
+
+interface PerfilEditarFormProps {
+  usuario: UsuarioLogado
+}
+
+function PerfilEditarForm({ usuario }: PerfilEditarFormProps) {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const usuario = useAppSelector((state) => state.auth.usuario)
   const { cursos, carregando: carregandoCursos, erro: erroCursos } = useCursos()
 
-  const [nome, setNome] = useState('')
-  const [cursoId, setCursoId] = useState('')
-  const [telefone, setTelefone] = useState('')
+  const [nome, setNome] = useState(usuario.nome)
+  const [cursoId, setCursoId] = useState(usuario.curso?.id ? String(usuario.curso.id) : '')
+  const [telefone, setTelefone] = useState(usuario.telefone ?? '')
 
   const [fotoArquivo, setFotoArquivo] = useState<File | null>(null)
   const [fotoPreview, setFotoPreview] = useState<string | null>(null)
@@ -33,14 +50,7 @@ export default function PerfilEditarPage() {
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  useEffect(() => {
-    if (usuario) {
-      setNome(usuario.nome)
-      setCursoId(usuario.curso?.id ? String(usuario.curso.id) : '')
-      setTelefone(usuario.telefone ?? '')
-    }
-  }, [usuario])
-
+  // Revoga URL criada pelo createObjectURL quando componente desmontar ou foto mudar
   useEffect(() => {
     return () => {
       if (fotoPreview) {
@@ -48,14 +58,6 @@ export default function PerfilEditarPage() {
       }
     }
   }, [fotoPreview])
-
-  if (!usuario) {
-    return (
-      <div className={styles.container}>
-        <Spinner label="Carregando perfil..." />
-      </div>
-    )
-  }
 
   function aoSelecionarFoto(ev: ChangeEvent<HTMLInputElement>) {
     setMensagemErro(null)
@@ -120,18 +122,18 @@ export default function PerfilEditarPage() {
     setSalvando(true)
 
     try {
-      let usuarioAtual: UsuarioLogado = usuario!
+      let resultadoUsuario: UsuarioLogado = usuario
 
       if (fotoArquivo) {
         const formData = new FormData()
         formData.append('foto', fotoArquivo)
 
-        usuarioAtual = await api<UsuarioLogado>('/usuarios/eu/foto', {
+        resultadoUsuario = await api<UsuarioLogado>('/usuarios/eu/foto', {
           method: 'PUT',
           body: formData,
         })
 
-        dispatch(usuarioAtualizado(usuarioAtual))
+        dispatch(usuarioAtualizado(resultadoUsuario))
         cancelarFoto()
       }
 
@@ -141,12 +143,12 @@ export default function PerfilEditarPage() {
         telefone: telefone.trim() || null,
       }
 
-      const usuarioFinal = await api<UsuarioLogado>('/usuarios/eu', {
+      resultadoUsuario = await api<UsuarioLogado>('/usuarios/eu', {
         method: 'PUT',
         body: dadosAtualizados,
       })
 
-      dispatch(usuarioAtualizado(usuarioFinal))
+      dispatch(usuarioAtualizado(resultadoUsuario))
       setMensagemSucesso('Perfil atualizado com sucesso!')
     } catch (erro: unknown) {
       if (erro instanceof ApiError) {
@@ -186,7 +188,6 @@ export default function PerfilEditarPage() {
       )}
 
       <div className={styles.card}>
-        {/* Seção da Foto de Perfil */}
         <section className={styles.fotoSection} aria-label="Foto de perfil">
           <Avatar name={nome.trim() || usuario.nome} src={fotoExibida} size="xl" />
 
@@ -227,7 +228,6 @@ export default function PerfilEditarPage() {
           </div>
         </section>
 
-        {/* Formulário com Dados do Perfil */}
         <form onSubmit={aoSalvar} className={styles.form} noValidate>
           <Field label="Nome completo" required error={errosCampos.nome}>
             <Input
