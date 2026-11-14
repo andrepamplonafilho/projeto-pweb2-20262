@@ -8,12 +8,12 @@ import LoginPage from '../features/auth/LoginPage'
 import AnuncioDetalhePage from '../features/anuncios/AnuncioDetalhePage'
 import AnuncioFormularioPage from '../features/anuncios/AnuncioFormularioPage'
 import BuscaPage from '../features/busca/BuscaPage'
+import PerfilPage from '../features/perfil/PerfilPage'
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
   { path: '/cadastro', element: <CadastroPage /> },
   { path: '/admin/login', element: <Pagina titulo="Login do administrador" /> },
-
   {
     element: <RotaProtegida />,
     children: [
@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
           { path: '/', element: <Navigate to="/vendas" replace /> },
           { path: '/vendas', element: <BuscaPage /> },
           { path: '/doacoes', element: <BuscaPage /> },
-          { path: '/perfil', element: <Pagina titulo="Meu perfil" /> },
+          { path: '/perfil', element: <PerfilPage /> },
           { path: '/perfil/editar', element: <Pagina titulo="Editar perfil" /> },
           { path: '/usuarios/:id', element: <Pagina titulo="Perfil do usuário" /> },
           { path: '/anuncios/novo', element: <AnuncioFormularioPage /> },
