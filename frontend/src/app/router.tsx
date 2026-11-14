@@ -9,6 +9,8 @@ import AnuncioDetalhePage from '../features/anuncios/AnuncioDetalhePage'
 import AnuncioFormularioPage from '../features/anuncios/AnuncioFormularioPage'
 import BuscaPage from '../features/busca/BuscaPage'
 import PerfilPage from '../features/perfil/PerfilPage'
+import PerfilEditarPage from '../features/perfil/PerfilEditarPage'
+import PerfilUsuarioPage from '../features/perfil/PerfilUsuarioPage'
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
@@ -24,8 +26,8 @@ export const router = createBrowserRouter([
           { path: '/vendas', element: <BuscaPage /> },
           { path: '/doacoes', element: <BuscaPage /> },
           { path: '/perfil', element: <PerfilPage /> },
-          { path: '/perfil/editar', element: <Pagina titulo="Editar perfil" /> },
-          { path: '/usuarios/:id', element: <Pagina titulo="Perfil do usuário" /> },
+          { path: '/perfil/editar', element: <PerfilEditarPage /> },
+          { path: '/usuarios/:id', element: <PerfilUsuarioPage /> },
           { path: '/anuncios/novo', element: <AnuncioFormularioPage /> },
           { path: '/anuncios/:id', element: <AnuncioDetalhePage /> },
           { path: '/anuncios/:id/editar', element: <AnuncioFormularioPage /> },

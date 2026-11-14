@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { api, tokenStorage } from '../../shared/api/client'
 import { ApiError } from '../../shared/api/errors'
 import type { CadastroRequest, LoginRequest, Sessao, UsuarioLogado } from '../../shared/api/tipos'
@@ -134,6 +134,9 @@ const authSlice = createSlice({
     sessaoExpirada(state) {
       desautenticou(state)
     },
+    usuarioAtualizado(state, action: PayloadAction<UsuarioLogado>) {
+      state.usuario = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -150,5 +153,5 @@ const authSlice = createSlice({
   },
 })
 
-export const { limparErro, sessaoExpirada } = authSlice.actions
+export const { limparErro, sessaoExpirada, usuarioAtualizado } = authSlice.actions
 export default authSlice.reducer
