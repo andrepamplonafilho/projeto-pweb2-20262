@@ -86,7 +86,7 @@ public class AnuncioService {
                 .map(f -> new FotoAnuncio(f.id(), armazenamento.url(f.chave()), f.capa()))
                 .toList();
         return new AnuncioDetalhe(a.id(), a.titulo(), a.descricao(), a.modalidade(), reais(a.precoCentavos()),
-                a.estado(), a.estadoConservacao(), categoria(a), a.localEntrega(), armazenamento.url(a.capaChave()),
+                a.estado(), a.nivel(), categoria(a), a.localAula(), armazenamento.url(a.capaChave()),
                 fotos, usuarios.perfil(a.usuarioId()), Instant.parse(a.publicadoEm()),
                 Instant.parse(a.atualizadoEm()));
     }
@@ -186,7 +186,7 @@ public class AnuncioService {
 
     private AnuncioResumo resumo(AnuncioRegistro a) {
         return new AnuncioResumo(a.id(), a.titulo(), a.modalidade(), reais(a.precoCentavos()), a.estado(),
-                a.estadoConservacao(), categoria(a), armazenamento.url(a.capaChave()),
+                a.nivel(), categoria(a), armazenamento.url(a.capaChave()),
                 new AnuncianteResumo(a.usuarioId(), a.usuarioNome()), Instant.parse(a.publicadoEm()));
     }
 

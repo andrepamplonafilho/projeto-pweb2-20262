@@ -33,11 +33,11 @@ public class CatalogoController {
         return repositorio.categorias();
     }
 
-    @GetMapping("/estados-conservacao")
-    @Operation(summary = "Estados de conservação aceitos no anúncio")
-    public List<OpcaoEstadoConservacao> estadosConservacao() {
-        return Arrays.stream(EstadoConservacao.values())
-                .map(e -> new OpcaoEstadoConservacao(e, e.rotulo()))
+    @GetMapping("/niveis")
+    @Operation(summary = "Níveis aceitos nas aulas")
+    public List<OpcaoNivel> niveis() {
+        return Arrays.stream(Nivel.values())
+                .map(e -> new OpcaoNivel(e, e.rotulo()))
                 .toList();
     }
 }

@@ -42,7 +42,7 @@ public class SegurancaConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/cadastro", "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/cursos", "/categorias", "/estados-conservacao").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cursos", "/categorias", "/niveis").permitAll()
                         .requestMatchers("/", "/error", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().hasRole("estudante"))
                 .oauth2ResourceServer(o -> o
