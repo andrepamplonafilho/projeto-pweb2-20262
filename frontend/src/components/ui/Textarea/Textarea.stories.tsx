@@ -5,7 +5,7 @@ const meta: Meta<typeof Textarea> = {
   title: 'UI/Textarea',
   component: Textarea,
   args: {
-    placeholder: 'Descreva o item: estado, tempo de uso, detalhes...',
+    placeholder: 'Descreva a aula: conteúdo, duração, pré-requisitos...',
     'aria-label': 'Descrição',
   },
 }
@@ -18,7 +18,7 @@ export const Padrao: Story = {}
 
 export const ComValor: Story = {
   args: {
-    defaultValue: 'Calculadora científica em ótimo estado, usada por um semestre.',
+    defaultValue: 'Aulas práticas de Cálculo I, com listas de exercícios resolvidos.',
   },
 }
 

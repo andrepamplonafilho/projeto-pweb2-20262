@@ -6,8 +6,8 @@ const labels: Record<BadgeStatus, string> = {
   ativo: 'Ativo',
   pausado: 'Pausado',
   reservado: 'Reservado',
-  vendido: 'Vendido',
-  concluido: 'Concluido',
+  vendido: 'Lotado',
+  concluido: 'Concluído',
   removido: 'Removido',
 }
 

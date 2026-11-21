@@ -105,7 +105,7 @@ export default function BuscaPage() {
   return (
     <section className={styles.page} aria-labelledby="busca-titulo">
       <header className={styles.header}>
-        <h1 id="busca-titulo">{modalidade === 'venda' ? 'Vendas' : 'Doações'}</h1>
+        <h1 id="busca-titulo">{modalidade === 'venda' ? 'Aulas pagas' : 'Aulas gratuitas'}</h1>
         <p>Encontre anúncios ativos publicados por estudantes.</p>
       </header>
 

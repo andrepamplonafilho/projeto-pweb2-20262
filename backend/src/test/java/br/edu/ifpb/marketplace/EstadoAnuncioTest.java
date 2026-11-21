@@ -23,10 +23,10 @@ class EstadoAnuncioTest extends IntegracaoBase {
                 .campo("titulo", "Cabo USB")
                 .campo("descricao", "Cabo USB-C")
                 .campo("modalidade", "doacao")
-                .campo("estadoConservacao", "usado")
+                .campo("nivel", "avancado")
                 .campo("categoriaId", 1)
-                .campo("localEntrega", "Biblioteca")
-                .arquivo("fotos", foto("anuncio-10-1.jpg"), "cabo.jpg"));
+                .campo("localAula", "Biblioteca")
+                .arquivo("fotos", foto("aula-10-1.jpg"), "cabo.jpg"));
         doacao = r.<Integer>json("$.id");
         foto = r.json("$.fotos[0].id");
     }
@@ -60,7 +60,7 @@ class EstadoAnuncioTest extends IntegracaoBase {
 
     @Test
     void concluidoNaoExisteEmVenda() {
-        assertThat(alterar(13, dono, "concluido").status()).isEqualTo(400);
+        assertThat(alterar(11, dono, "concluido").status()).isEqualTo(400);
     }
 
     @Test
@@ -82,9 +82,9 @@ class EstadoAnuncioTest extends IntegracaoBase {
                 .campo("descricao", "Cabo USB-C")
                 .campo("modalidade", "venda")
                 .campo("preco", 5)
-                .campo("estadoConservacao", "usado")
+                .campo("nivel", "avancado")
                 .campo("categoriaId", 1)
-                .campo("localEntrega", "Biblioteca")
+                .campo("localAula", "Biblioteca")
                 .campo("fotosMantidas", foto));
 
         assertThat(r.status()).isEqualTo(400);

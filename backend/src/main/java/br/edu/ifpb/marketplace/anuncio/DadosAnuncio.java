@@ -2,7 +2,7 @@ package br.edu.ifpb.marketplace.anuncio;
 
 import java.math.BigDecimal;
 
-import br.edu.ifpb.marketplace.catalogo.EstadoConservacao;
+import br.edu.ifpb.marketplace.catalogo.Nivel;
 
 /** Campos comuns à criação e à edição de anúncio. */
 public interface DadosAnuncio {
@@ -15,9 +15,9 @@ public interface DadosAnuncio {
 
     BigDecimal preco();
 
-    EstadoConservacao estadoConservacao();
+    Nivel nivel();
 
     Long categoriaId();
 
-    String localEntrega();
+    String localAula();
 }

@@ -3,7 +3,7 @@
 export type Papel = 'estudante' | 'administrador'
 export type Modalidade = 'venda' | 'doacao'
 export type EstadoAnuncio = 'ativo' | 'pausado' | 'reservado' | 'vendido' | 'concluido'
-export type EstadoConservacao = 'novo' | 'seminovo' | 'usado'
+export type Nivel = 'iniciante' | 'intermediario' | 'avancado'
 
 // ---------- Listas ----------
 
@@ -18,8 +18,8 @@ export interface Categoria {
   slug: string // valor do filtro `categoria` da busca
 }
 
-export interface OpcaoEstadoConservacao {
-  valor: EstadoConservacao
+export interface OpcaoNivel {
+  valor: Nivel
   rotulo: string
 }
 
@@ -89,7 +89,7 @@ export interface AnuncioResumo {
   modalidade: Modalidade
   preco: number | null // nulo em doações
   estado: EstadoAnuncio
-  estadoConservacao: EstadoConservacao
+  nivel: Nivel
   categoria: Categoria
   capaUrl: string
   anunciante: AnuncianteResumo
@@ -103,9 +103,9 @@ export interface AnuncioDetalhe {
   modalidade: Modalidade
   preco: number | null // nulo em doações
   estado: EstadoAnuncio
-  estadoConservacao: EstadoConservacao
+  nivel: Nivel
   categoria: Categoria
-  localEntrega: string
+  localAula: string
   capaUrl: string
   fotos: FotoAnuncio[] // na ordem de exibição
   anunciante: Perfil
@@ -133,9 +133,9 @@ export interface NovoAnuncioForm {
   descricao: string // até 2000
   modalidade: Modalidade
   preco?: number // obrigatório em vendas; ausente em doações
-  estadoConservacao: EstadoConservacao
+  nivel: Nivel
   categoriaId: number
-  localEntrega: string // até 200
+  localAula: string // até 200
   fotos: File[] // 1 a 10 (JPEG, PNG ou WebP, até 5 MB cada)
   capaIndice?: number // padrão 0
 }

@@ -16,8 +16,8 @@ const meta: Meta<typeof Layout> = {
         <MemoryRouter initialEntries={['/vendas']}>
           <Routes>
             <Route element={<Story />}>
-              <Route path="/vendas" element={<h1>Conteúdo da página de Vendas</h1>} />
-              <Route path="/doacoes" element={<h1>Conteúdo da página de Doações</h1>} />
+              <Route path="/vendas" element={<h1>Conteúdo da página de Aulas pagas</h1>} />
+              <Route path="/doacoes" element={<h1>Conteúdo da página de Aulas gratuitas</h1>} />
               <Route path="/perfil" element={<h1>Conteúdo do Perfil</h1>} />
             </Route>
             <Route path="/login" element={<h1>Tela de login</h1>} />

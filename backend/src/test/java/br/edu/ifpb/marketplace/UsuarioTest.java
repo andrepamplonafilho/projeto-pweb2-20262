@@ -82,7 +82,7 @@ class UsuarioTest extends IntegracaoBase {
                 new Formulario().arquivo("foto", foto("usuario-estudante.jpg"), "eu.jpg"));
         String urlPrimeira = primeira.json("$.fotoUrl");
         Resposta segunda = api.multipart(HttpMethod.PUT, "/usuarios/eu/foto", token,
-                new Formulario().arquivo("foto", foto("anuncio-01-1.jpg"), "eu.jpg"));
+                new Formulario().arquivo("foto", foto("aula-01-1.jpg"), "eu.jpg"));
 
         assertThat(primeira.status()).isEqualTo(200);
         assertThat(acessar(segunda.json("$.fotoUrl"))).isEqualTo("200 image/jpeg");

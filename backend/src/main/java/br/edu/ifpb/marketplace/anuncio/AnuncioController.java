@@ -42,7 +42,7 @@ public class AnuncioController {
                     + "e não há filtro de preço.")
     public Pagina<AnuncioResumo> buscar(
             @Parameter(description = "`venda` ou `doacao`", required = true) @RequestParam Modalidade modalidade,
-            @Parameter(description = "Slug da categoria", example = "eletronicos") @RequestParam(required = false) String categoria,
+            @Parameter(description = "Slug da categoria", example = "computacao-e-programacao") @RequestParam(required = false) String categoria,
             @Parameter(description = "Preço mínimo em reais (só vendas)") @RequestParam(required = false) BigDecimal precoMin,
             @Parameter(description = "Preço máximo em reais (só vendas)") @RequestParam(required = false) BigDecimal precoMax,
             @Parameter(description = "`data` (padrão) ou `preco`") @RequestParam(required = false) Ordem ordem,

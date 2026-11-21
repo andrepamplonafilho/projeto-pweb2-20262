@@ -14,8 +14,8 @@ class AnuncioRepositorio {
     private static final String SELECT = """
             SELECT a.id, a.usuario_id, u.nome AS usuario_nome,
                    a.categoria_id, c.nome AS categoria_nome, c.slug AS categoria_slug,
-                   a.titulo, a.descricao, a.modalidade, a.preco_centavos, a.estado_conservacao,
-                   a.local_entrega, a.estado, a.publicado_em, a.atualizado_em, f.chave AS capa_chave
+                   a.titulo, a.descricao, a.modalidade, a.preco_centavos, a.nivel,
+                   a.local_aula, a.estado, a.publicado_em, a.atualizado_em, f.chave AS capa_chave
               FROM anuncio a
               JOIN usuario u ON u.id = a.usuario_id
               JOIN categoria c ON c.id = a.categoria_id
@@ -98,12 +98,12 @@ class AnuncioRepositorio {
         var chave = new GeneratedKeyHolder();
         jdbc.sql("""
                 INSERT INTO anuncio (usuario_id, categoria_id, titulo, descricao, modalidade, preco_centavos,
-                                     estado_conservacao, local_entrega)
+                                     nivel, local_aula)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """)
                 .params(usuarioId, dados.categoriaId(), dados.titulo().trim(), dados.descricao().trim(),
-                        dados.modalidade().name(), precoCentavos, dados.estadoConservacao().name(),
-                        dados.localEntrega().trim())
+                        dados.modalidade().name(), precoCentavos, dados.nivel().name(),
+                        dados.localAula().trim())
                 .update(chave);
         return chave.getKey().longValue();
     }
@@ -112,12 +112,12 @@ class AnuncioRepositorio {
         jdbc.sql("""
                 UPDATE anuncio
                    SET categoria_id = ?, titulo = ?, descricao = ?, modalidade = ?, preco_centavos = ?,
-                       estado_conservacao = ?, local_entrega = ?, atualizado_em = %s
+                       nivel = ?, local_aula = ?, atualizado_em = %s
                  WHERE id = ?
                 """.formatted(AGORA))
                 .params(dados.categoriaId(), dados.titulo().trim(), dados.descricao().trim(),
-                        dados.modalidade().name(), precoCentavos, dados.estadoConservacao().name(),
-                        dados.localEntrega().trim(), id)
+                        dados.modalidade().name(), precoCentavos, dados.nivel().name(),
+                        dados.localAula().trim(), id)
                 .update();
     }
 

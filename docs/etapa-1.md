@@ -49,6 +49,7 @@ Rotas: `/anuncios/novo`, `/anuncios/:id`, `/anuncios/:id/editar`.
 **Redux:** estado `anuncios` com o anúncio em detalhe e o status das requisições; thunks para buscar, criar e editar um anúncio e para alterar o seu estado. O formulário em edição e a pré-visualização das fotos ficam fora do Redux, em estado local. Mesmo sendo dados de uma página só, o anúncio fica no Redux nesta etapa para praticar thunks com carregamento e erro.
 
 1. Campos: título, descrição, modalidade (venda ou doação), preço, estado de conservação (lista fixa de valores, fornecida pela API), categoria, local de entrega (texto livre) e fotos.
+> Adaptado pela equipe: o projeto passou a ser de aulas particulares e monitorias. No lugar de "estado de conservação" e "local de entrega", usamos "nível" e "local da aula".
 2. Preço é obrigatório em vendas e oculto em doações.
 3. Upload de 1 a 10 fotos, com pré-visualização, remoção e escolha da foto de capa.
 4. Estados: ativo, pausado, reservado e vendido. Em doações, o estado final se chama "concluído". Apenas o anunciante altera o estado e edita o anúncio.

@@ -19,7 +19,7 @@ export const Padrao: Story = {}
 export const ComAcao: Story = {
   args: {
     title: 'Você ainda não tem anúncios',
-    description: 'Publique o primeiro item para vender ou doar.',
+    description: 'Publique a primeira aula, paga ou gratuita.',
     actionLabel: 'Criar anúncio',
     onAction: () => {},
   },

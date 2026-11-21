@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 import br.edu.ifpb.marketplace.catalogo.Categoria;
-import br.edu.ifpb.marketplace.catalogo.EstadoConservacao;
+import br.edu.ifpb.marketplace.catalogo.Nivel;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "Anúncio nas listagens")
@@ -14,7 +14,7 @@ public record AnuncioResumo(
         Modalidade modalidade,
         @Schema(description = "Em reais; nulo em doações", example = "80.00", nullable = true) BigDecimal preco,
         EstadoAnuncio estado,
-        EstadoConservacao estadoConservacao,
+        Nivel nivel,
         Categoria categoria,
         @Schema(description = "URL assinada da foto de capa, válida por 1 hora") String capaUrl,
         AnuncianteResumo anunciante,

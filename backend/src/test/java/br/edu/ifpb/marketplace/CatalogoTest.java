@@ -26,10 +26,10 @@ class CatalogoTest extends IntegracaoBase {
     }
 
     @Test
-    void listaOsEstadosDeConservacao() {
-        Resposta r = api.get("/estados-conservacao", null);
+    void listaOsNiveisDasAulas() {
+        Resposta r = api.get("/niveis", null);
 
-        assertThat(r.<List<String>>json("$[*].valor")).containsExactly("novo", "seminovo", "usado");
-        assertThat(r.<List<String>>json("$[*].rotulo")).containsExactly("Novo", "Seminovo", "Usado");
+        assertThat(r.<List<String>>json("$[*].valor")).containsExactly("iniciante", "intermediario", "avancado");
+        assertThat(r.<List<String>>json("$[*].rotulo")).containsExactly("Iniciante", "Intermediário", "Avançado");
     }
 }
