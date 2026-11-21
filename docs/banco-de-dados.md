@@ -10,6 +10,8 @@ O banco é criado e atualizado pelo [Flyway](https://documentation.red-gate.com/
 | --- | --- |
 | `V1__schema.sql` | Tabelas da etapa 1 |
 | `V2__carga.sql` | Cursos, a categoria de exemplo e os dados de exemplo (um estudante, anúncios e fotos) |
+| `V2_1__adapta_schema_para_aulas.sql` | Da equipe: troca `estado_conservacao` por `nivel` e `local_entrega` por `local_aula` |
+| `V2_2__carga_de_aulas.sql` | Da equipe: estudantes, administrador, aulas e fotos de exemplo |
 
 O Flyway registra as migrações aplicadas na tabela `flyway_schema_history`, junto com um checksum do conteúdo de cada arquivo. Uma migração aplicada nunca roda de novo e, a partir daí, **não pode ser editada, renomeada nem apagada**: se o arquivo mudar, a API não sobe (veja [Erros comuns](#erros-comuns)).
 
@@ -52,11 +54,16 @@ Tudo o que vem depois da linha `-- Dados de exemplo` é opcional. Escolha uma da
   - `estado` é `ativo`, `pausado`, `reservado`, `vendido` (só em vendas) ou `concluido` (só em doações);
   - `estado_conservacao` é `novo`, `seminovo` ou `usado`;
   - cada anúncio tem de 1 a 10 fotos em `anuncio_foto`, com exatamente uma `capa = 1`.
+
+  > **Adaptado pela equipe:** o texto original citava o campo `estado_conservacao` (`novo`, `seminovo` ou `usado`). Como o projeto passou a tratar de aulas, ele foi substituído por `nivel` (`iniciante`, `intermediario` ou `avancado`), e `local_entrega` virou `local_aula`. A mudança está na migração `V2_1__adapta_schema_para_aulas.sql`.
+
 - **Apagar**: remova tudo a partir da linha `-- Dados de exemplo`. O banco começa só com os cursos e as categorias. As fotos de `backend/db/fotos` podem ficar ou ser apagadas; sem referência no banco, elas não aparecem em lugar nenhum.
 
 Para mais estudantes de exemplo, copie a linha do estudante em `INSERT INTO usuario` e troque `id`, `nome` e `email`. Use o mesmo `senha_hash`: ele é o hash da senha `senha123`. Use e-mails `@academico.ifpb.edu.br`, como no cadastro.
 
 Para fotos novas, coloque arquivos JPEG, PNG ou WebP em `backend/db/fotos` e use `carga/<nome-do-arquivo>` na migração.
+
+
 
 ### 3. Suba a API
 

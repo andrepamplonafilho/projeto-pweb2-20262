@@ -31,6 +31,7 @@ O [`docker-compose.yml`](../docker-compose.yml) da raiz sobe dois serviços:
 ## Dados
 
 - **Estado de conservação:** lista fixa de valores, guardada como enum: `novo`, `seminovo` e `usado`.
+> Adaptado pela equipe: no texto original, esta lista era "Estado de conservação" (`novo`, `seminovo` e `usado`). Trocamos por "Nível da aula" porque o nosso projeto é de aulas.
 - **Contato:** telefone/WhatsApp, opcional no cadastro.
 - **Categorias:** nome e `slug`. O `slug` é o identificador usado na URL e no filtro da busca (`?categoria=eletronicos`): minúsculas, sem acentos e com hífen no lugar de espaços. A migração de carga traz a categoria de exemplo "Eletrônicos" (`eletronicos`); cada equipe acrescenta as suas numa migração nova.
 - **Cursos:** carregados pela migração de carga:
