@@ -23,7 +23,7 @@ export const Pausado: Story = { args: { status: 'pausado' } }
 
 export const Reservado: Story = { args: { status: 'reservado' } }
 
-export const Vendido: Story = { args: { status: 'vendido' } }
+export const Lotado: Story = { args: { status: 'vendido' } }
 
 export const Concluido: Story = { args: { status: 'concluido' } }
 

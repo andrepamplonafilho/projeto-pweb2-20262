@@ -18,9 +18,9 @@ import { api } from '../../shared/api/client'
 import type {
   AnuncioDetalhe,
   Categoria,
-  EstadoConservacao,
+  Nivel,
   Modalidade,
-  OpcaoEstadoConservacao,
+  OpcaoNivel,
 } from '../../shared/api/tipos'
 import { buscarAnuncio, criarAnuncio, editarAnuncio, limparErroSalvamento } from './anunciosSlice'
 import styles from './AnuncioFormularioPage.module.css'
@@ -30,9 +30,9 @@ interface CamposFormulario {
   descricao: string
   modalidade: Modalidade
   preco: string
-  estadoConservacao: EstadoConservacao | ''
+  nivel: Nivel | ''
   categoriaId: string
-  localEntrega: string
+  localAula: string
 }
 
 interface FotoExistente {
@@ -57,9 +57,9 @@ const camposIniciais: CamposFormulario = {
   descricao: '',
   modalidade: 'venda',
   preco: '',
-  estadoConservacao: '',
+  nivel: '',
   categoriaId: '',
-  localEntrega: '',
+  localAula: '',
 }
 
 const tamanhoMaximoFoto = 5 * 1024 * 1024
@@ -74,9 +74,9 @@ function preencherFormulario(anuncio: AnuncioDetalhe): CamposFormulario {
     descricao: anuncio.descricao,
     modalidade: anuncio.modalidade,
     preco: anuncio.preco === null ? '' : String(anuncio.preco),
-    estadoConservacao: anuncio.estadoConservacao,
+    nivel: anuncio.nivel,
     categoriaId: String(anuncio.categoria.id),
-    localEntrega: anuncio.localEntrega,
+    localAula: anuncio.localAula,
   }
 }
 
@@ -91,9 +91,9 @@ function montarFormData(
   dados.append('descricao', campos.descricao.trim())
   dados.append('modalidade', campos.modalidade)
   if (campos.modalidade === 'venda') dados.append('preco', campos.preco)
-  dados.append('estadoConservacao', campos.estadoConservacao)
+  dados.append('nivel', campos.nivel)
   dados.append('categoriaId', campos.categoriaId)
-  dados.append('localEntrega', campos.localEntrega.trim())
+  dados.append('localAula', campos.localAula.trim())
 
   const mantidas = fotos.filter((foto): foto is FotoExistente => foto.tipo === 'existente')
   const novas = fotos.filter((foto): foto is FotoNova => foto.tipo === 'nova')
@@ -133,7 +133,7 @@ export default function AnuncioFormularioPage() {
   const [fotos, setFotos] = useState<FotoFormulario[]>([])
   const [capa, setCapa] = useState('')
   const [categorias, setCategorias] = useState<Categoria[]>([])
-  const [estados, setEstados] = useState<OpcaoEstadoConservacao[]>([])
+  const [estados, setEstados] = useState<OpcaoNivel[]>([])
   const [erroCatalogo, setErroCatalogo] = useState<string | null>(null)
   const [carregandoCatalogo, setCarregandoCatalogo] = useState(true)
   const [errosLocais, setErrosLocais] = useState<ErrosFormulario>({})
@@ -146,7 +146,7 @@ export default function AnuncioFormularioPage() {
     let ativo = true
     Promise.all([
       api<Categoria[]>('/categorias'),
-      api<OpcaoEstadoConservacao[]>('/estados-conservacao'),
+      api<OpcaoNivel[]>('/niveis'),
     ])
       .then(([listaCategorias, listaEstados]) => {
         if (!ativo) return
@@ -259,11 +259,11 @@ export default function AnuncioFormularioPage() {
         novosErros.preco = 'Use até 7 dígitos e 2 casas decimais.'
       }
     }
-    if (!campos.estadoConservacao)
-      novosErros.estadoConservacao = 'Selecione o estado de conservação.'
+    if (!campos.nivel)
+      novosErros.nivel = 'Selecione o nível da aula.'
     if (!campos.categoriaId) novosErros.categoriaId = 'Selecione uma categoria.'
-    if (!campos.localEntrega.trim()) novosErros.localEntrega = 'Informe o local de entrega.'
-    if (campos.localEntrega.length > 200) novosErros.localEntrega = 'Use no máximo 200 caracteres.'
+    if (!campos.localAula.trim()) novosErros.localAula = 'Informe o local da aula.'
+    if (campos.localAula.length > 200) novosErros.localAula = 'Use no máximo 200 caracteres.'
     if (fotos.length < 1 || fotos.length > 10) setErroFotos('O anúncio deve ter de 1 a 10 fotos.')
     else if (!fotos.some((foto) => foto.chave === capa)) setErroFotos('Escolha uma foto de capa.')
     setErrosLocais(novosErros)
@@ -399,13 +399,13 @@ export default function AnuncioFormularioPage() {
           </Field>
         )}
         <Field
-          label="Estado de conservação"
+          label="Nível"
           required
-          error={errosLocais.estadoConservacao || salvamento.campos.estadoConservacao}
+          error={errosLocais.nivel || salvamento.campos.nivel}
         >
           <Select
-            value={campos.estadoConservacao}
-            onChange={(evento) => alterarCampo('estadoConservacao', evento.target.value)}
+            value={campos.nivel}
+            onChange={(evento) => alterarCampo('nivel', evento.target.value)}
           >
             <option value="">Selecione</option>
             {estados.map((estado) => (
@@ -433,14 +433,14 @@ export default function AnuncioFormularioPage() {
           </Select>
         </Field>
         <Field
-          label="Local de entrega"
+          label="Local da aula"
           required
-          error={errosLocais.localEntrega || salvamento.campos.localEntrega}
+          error={errosLocais.localAula || salvamento.campos.localAula}
         >
           <Input
-            value={campos.localEntrega}
+            value={campos.localAula}
             maxLength={200}
-            onChange={(evento) => alterarCampo('localEntrega', evento.target.value)}
+            onChange={(evento) => alterarCampo('localAula', evento.target.value)}
           />
         </Field>
 

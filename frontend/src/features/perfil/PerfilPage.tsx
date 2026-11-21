@@ -147,7 +147,7 @@ export default function PerfilPage() {
         {!carregandoAnuncios && !erroAnuncios && !temAnuncios && (
           <EmptyState
             title="Nenhum anúncio publicado"
-            description="Você ainda não publicou nenhum item para venda ou doação."
+            description="Você ainda não publicou nenhuma aula, paga ou gratuita."
             actionLabel="Criar anúncio"
             onAction={() => navigate('/anuncios/novo')}
           />

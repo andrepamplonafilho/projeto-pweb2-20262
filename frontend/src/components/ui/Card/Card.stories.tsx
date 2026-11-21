@@ -15,7 +15,7 @@ const meta: Meta<typeof Card> = {
   title: 'UI/Card',
   component: Card,
   args: {
-    title: 'Calculadora científica Casio',
+    title: 'Cálculo I: limites e derivadas',
     modality: 'venda',
     price: 45,
     coverUrl: capa,
@@ -49,7 +49,7 @@ export const Venda: Story = {}
 
 export const Doacao: Story = {
   args: {
-    title: 'Livros de cálculo (volumes 1 e 2)',
+    title: 'Matemática básica para o ENEM',
     modality: 'doacao',
     price: undefined,
   },
