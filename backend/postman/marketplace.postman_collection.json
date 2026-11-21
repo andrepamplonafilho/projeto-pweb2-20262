@@ -115,7 +115,7 @@
           }
         },
         {
-          "name": "Estados de conservação",
+          "name": "Níveis das aulas",
           "event": [
             {
               "listen": "test",
@@ -131,12 +131,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/estados-conservacao",
+              "raw": "{{baseUrl}}/niveis",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "estados-conservacao"
+                "niveis"
               ]
             },
             "auth": {
@@ -614,7 +614,7 @@
           }
         },
         {
-          "name": "Vendas de eletrônicos entre R$ 10 e R$ 100, 5 por página",
+          "name": "Vendas de Computação e Programação entre R$ 10 e R$ 100, 5 por página",
           "event": [
             {
               "listen": "test",
@@ -630,7 +630,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/anuncios?modalidade=venda&categoria=eletronicos&precoMin=10&precoMax=100&ordem=preco&direcao=asc&pagina=1&tamanho=5",
+              "raw": "{{baseUrl}}/anuncios?modalidade=venda&categoria=computacao-e-programacao&precoMin=10&precoMax=100&ordem=preco&direcao=asc&pagina=1&tamanho=5",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -644,7 +644,7 @@
                 },
                 {
                   "key": "categoria",
-                  "value": "eletronicos"
+                  "value": "computacao-e-programacao"
                 },
                 {
                   "key": "precoMin",
@@ -830,17 +830,17 @@
                 {
                   "key": "titulo",
                   "type": "text",
-                  "value": "Fone de ouvido com fio"
+                  "value": "Aula de Python para iniciantes"
                 },
                 {
                   "key": "descricao",
                   "type": "text",
-                  "value": "Fone P2, funcionando perfeitamente."
+                  "value": "Lógica de programação com exercícios práticos."
                 },
                 {
-                  "key": "estadoConservacao",
+                  "key": "nivel",
                   "type": "text",
-                  "value": "usado"
+                  "value": "intermediario"
                 },
                 {
                   "key": "categoriaId",
@@ -848,7 +848,7 @@
                   "value": "1"
                 },
                 {
-                  "key": "localEntrega",
+                  "key": "localAula",
                   "type": "text",
                   "value": "Biblioteca"
                 },
@@ -914,17 +914,17 @@
                 {
                   "key": "titulo",
                   "type": "text",
-                  "value": "Cabo de rede 3 m"
+                  "value": "Monitoria de redes de computadores"
                 },
                 {
                   "key": "descricao",
                   "type": "text",
-                  "value": "Cabo de rede Cat5e."
+                  "value": "Revisão de conceitos de redes, sem custo."
                 },
                 {
-                  "key": "estadoConservacao",
+                  "key": "nivel",
                   "type": "text",
-                  "value": "usado"
+                  "value": "intermediario"
                 },
                 {
                   "key": "categoriaId",
@@ -932,9 +932,9 @@
                   "value": "1"
                 },
                 {
-                  "key": "localEntrega",
+                  "key": "localAula",
                   "type": "text",
-                  "value": "Portaria principal"
+                  "value": "Sala 12, Bloco de Informática"
                 },
                 {
                   "key": "modalidade",
@@ -1012,17 +1012,17 @@
                 {
                   "key": "titulo",
                   "type": "text",
-                  "value": "Fone de ouvido com fio (baixei o preço)"
+                  "value": "Aula de Python para iniciantes (baixei o preço)"
                 },
                 {
                   "key": "descricao",
                   "type": "text",
-                  "value": "Fone P2, funcionando perfeitamente."
+                  "value": "Lógica de programação com exercícios práticos."
                 },
                 {
-                  "key": "estadoConservacao",
+                  "key": "nivel",
                   "type": "text",
-                  "value": "usado"
+                  "value": "intermediario"
                 },
                 {
                   "key": "categoriaId",
@@ -1030,7 +1030,7 @@
                   "value": "1"
                 },
                 {
-                  "key": "localEntrega",
+                  "key": "localAula",
                   "type": "text",
                   "value": "Biblioteca"
                 },
@@ -1469,17 +1469,17 @@
                 {
                   "key": "titulo",
                   "type": "text",
-                  "value": "Fone de ouvido com fio"
+                  "value": "Aula de Python para iniciantes"
                 },
                 {
                   "key": "descricao",
                   "type": "text",
-                  "value": "Fone P2, funcionando perfeitamente."
+                  "value": "Lógica de programação com exercícios práticos."
                 },
                 {
-                  "key": "estadoConservacao",
+                  "key": "nivel",
                   "type": "text",
-                  "value": "usado"
+                  "value": "intermediario"
                 },
                 {
                   "key": "categoriaId",
@@ -1487,7 +1487,7 @@
                   "value": "1"
                 },
                 {
-                  "key": "localEntrega",
+                  "key": "localAula",
                   "type": "text",
                   "value": "Biblioteca"
                 },
@@ -1591,17 +1591,17 @@
                 {
                   "key": "titulo",
                   "type": "text",
-                  "value": "Fone de ouvido com fio"
+                  "value": "Aula de Python para iniciantes"
                 },
                 {
                   "key": "descricao",
                   "type": "text",
-                  "value": "Fone P2, funcionando perfeitamente."
+                  "value": "Lógica de programação com exercícios práticos."
                 },
                 {
-                  "key": "estadoConservacao",
+                  "key": "nivel",
                   "type": "text",
-                  "value": "usado"
+                  "value": "intermediario"
                 },
                 {
                   "key": "categoriaId",
@@ -1609,7 +1609,7 @@
                   "value": "1"
                 },
                 {
-                  "key": "localEntrega",
+                  "key": "localAula",
                   "type": "text",
                   "value": "Biblioteca"
                 },
