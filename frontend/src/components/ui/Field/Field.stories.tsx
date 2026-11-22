@@ -34,7 +34,7 @@ export const ComErro: Story = {
 export const ComTextarea: Story = {
   args: {
     label: 'Descrição',
-    children: <Textarea placeholder="Descreva o item..." />,
+    children: <Textarea placeholder="Descreva a aula..." />,
   },
 }
 

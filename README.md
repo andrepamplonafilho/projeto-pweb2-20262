@@ -47,6 +47,17 @@ Para rodar a coleção inteira pelo terminal, com a API no ar:
 ```bash
 npx newman run backend/postman/marketplace.postman_collection.json --working-dir .
 ```
+> Seção adaptada pela equipe: a carga original (um estudante e 18 anúncios de produtos) foi substituída por uma carga de aulas, em `V2_2__carga_de_aulas.sql`.
+
+A carga traz estudantes e aulas de exemplo para testar a busca. Todos usam a senha `senha123`: `estudante@academico.ifpb.edu.br`, `mariana.duarte@academico.ifpb.edu.br`, `lucas.nunes@academico.ifpb.edu.br` e outros (veja `V2_2__carga_de_aulas.sql`). O administrador é `admin@ifpb.edu.br`. Para ver o sistema como outro estudante, cadastre-se em `POST /auth/cadastro`.
+
+As imagens das aulas e dos estudantes de exemplo são geradas por `backend/db/gerar_imagens.py`, que precisa do Pillow. Em Linux, use um ambiente virtual:
+
+    python3 -m venv ~/venv-imagens
+    ~/venv-imagens/bin/pip install pillow
+    ~/venv-imagens/bin/python backend/db/gerar_imagens.py
+
+Em outros sistemas, `pip install pillow` e `python backend/db/gerar_imagens.py` bastam. Rode antes do `docker compose up`, ou reinicie a API depois (`docker compose restart api`).
 
 ### Banco de dados e carga
 

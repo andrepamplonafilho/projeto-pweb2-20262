@@ -25,15 +25,15 @@ class AnuncioTest extends IntegracaoBase {
         return new Formulario()
                 .campo("titulo", "Mochila")
                 .campo("descricao", "Mochila para notebook")
-                .campo("estadoConservacao", "usado")
+                .campo("nivel", "avancado")
                 .campo("categoriaId", 1)
-                .campo("localEntrega", "Cantina");
+                .campo("localAula", "Cantina");
     }
 
     private static Formulario venda(int fotos) {
         Formulario f = campos().campo("modalidade", "venda").campo("preco", "99.9");
         for (int i = 0; i < fotos; i++) {
-            f.arquivo("fotos", foto("anuncio-01-1.jpg"), "foto" + i + ".jpg");
+            f.arquivo("fotos", foto("aula-01-1.jpg"), "foto" + i + ".jpg");
         }
         return f;
     }
@@ -82,7 +82,7 @@ class AnuncioTest extends IntegracaoBase {
 
     @Test
     void vendaSemPrecoDevolve400() {
-        Resposta r = criar(campos().campo("modalidade", "venda").arquivo("fotos", foto("anuncio-01-1.jpg"), "a.jpg"));
+        Resposta r = criar(campos().campo("modalidade", "venda").arquivo("fotos", foto("aula-01-1.jpg"), "a.jpg"));
 
         assertThat(r.status()).isEqualTo(400);
         assertThat(r.<String>json("$.campos.preco")).isEqualTo("Obrigatório em vendas.");
@@ -91,18 +91,18 @@ class AnuncioTest extends IntegracaoBase {
     @Test
     void doacaoComPrecoDevolve400() {
         Resposta r = criar(campos().campo("modalidade", "doacao").campo("preco", 10)
-                .arquivo("fotos", foto("anuncio-01-1.jpg"), "a.jpg"));
+                .arquivo("fotos", foto("aula-01-1.jpg"), "a.jpg"));
 
         assertThat(r.<String>json("$.campos.preco")).isEqualTo("Doações não têm preço; deixe em branco.");
     }
 
     @Test
     void camposObrigatoriosAusentes() {
-        Resposta r = criar(new Formulario().arquivo("fotos", foto("anuncio-01-1.jpg"), "a.jpg"));
+        Resposta r = criar(new Formulario().arquivo("fotos", foto("aula-01-1.jpg"), "a.jpg"));
 
         assertThat(r.status()).isEqualTo(400);
         assertThat(r.<Map<String, String>>json("$.campos"))
-                .containsKeys("titulo", "descricao", "modalidade", "estadoConservacao", "categoriaId", "localEntrega");
+                .containsKeys("titulo", "descricao", "modalidade", "nivel", "categoriaId", "localAula");
     }
 
     @Test
@@ -163,7 +163,7 @@ class AnuncioTest extends IntegracaoBase {
                 .campo("modalidade", "venda")
                 .campo("preco", 120)
                 .campo("fotosMantidas", segunda)
-                .arquivo("fotos", foto("anuncio-03-1.jpg"), "nova.jpg")
+                .arquivo("fotos", foto("aula-03-1.jpg"), "nova.jpg")
                 .campo("capaIndice", 0));
 
         assertThat(r.status()).isEqualTo(200);

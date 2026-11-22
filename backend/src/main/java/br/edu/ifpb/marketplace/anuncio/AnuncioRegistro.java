@@ -1,6 +1,6 @@
 package br.edu.ifpb.marketplace.anuncio;
 
-import br.edu.ifpb.marketplace.catalogo.EstadoConservacao;
+import br.edu.ifpb.marketplace.catalogo.Nivel;
 
 /** Linha de anúncio com categoria, anunciante e capa. Uso interno. */
 record AnuncioRegistro(
@@ -14,8 +14,8 @@ record AnuncioRegistro(
         String descricao,
         Modalidade modalidade,
         Long precoCentavos,
-        EstadoConservacao estadoConservacao,
-        String localEntrega,
+        Nivel nivel,
+        String localAula,
         EstadoAnuncio estado,
         String publicadoEm,
         String atualizadoEm,

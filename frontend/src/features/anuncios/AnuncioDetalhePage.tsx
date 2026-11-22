@@ -111,12 +111,12 @@ export default function AnuncioDetalhePage() {
               <dd>{anuncio.categoria.nome}</dd>
             </div>
             <div>
-              <dt>Conservação</dt>
-              <dd>{anuncio.estadoConservacao}</dd>
+              <dt>Nível</dt>
+              <dd>{anuncio.nivel}</dd>
             </div>
             <div>
-              <dt>Local de entrega</dt>
-              <dd>{anuncio.localEntrega}</dd>
+              <dt>Local da aula</dt>
+              <dd>{anuncio.localAula}</dd>
             </div>
             <div>
               <dt>Publicado em</dt>
