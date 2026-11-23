@@ -98,7 +98,11 @@ export default function PerfilPage() {
   }
 
   if (!perfil) {
-    return null
+    return (
+      <div className={styles.loading}>
+        <Spinner label="Carregando dados do perfil..." />
+      </div>
+    )
   }
 
   const temAnuncios = (anunciosData?.itens.length ?? 0) > 0
