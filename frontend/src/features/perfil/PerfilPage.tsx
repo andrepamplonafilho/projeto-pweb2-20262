@@ -121,9 +121,14 @@ export default function PerfilPage() {
           </div>
         </div>
 
-        <Link to="/perfil/editar">
-          <Button variant="secondary">Editar perfil</Button>
-        </Link>
+        <div className={styles.actions}>
+          <Link to="/anuncios/novo">
+            <Button>Novo anúncio</Button>
+          </Link>
+          <Link to="/perfil/editar">
+            <Button variant="secondary">Editar perfil</Button>
+          </Link>
+        </div>
       </header>
 
       <section className={styles.anunciosSection}>
