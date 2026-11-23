@@ -3,6 +3,7 @@ import { useAppSelector } from './hooks'
 
 export default function RotaProtegida({ admin = false }: { admin?: boolean }) {
   const token = useAppSelector((s) => s.auth.token)
+  const usuario = useAppSelector((s) => s.auth.usuario)
   const location = useLocation()
 
   if (!token) {
@@ -10,5 +11,10 @@ export default function RotaProtegida({ admin = false }: { admin?: boolean }) {
     const from = location.pathname + location.search
     return <Navigate to={destino} replace state={{ from }} />
   }
+
+  if (admin && usuario?.papel !== 'administrador') {
+    return <Navigate to="/vendas" replace />
+  }
+
   return <Outlet />
 }
