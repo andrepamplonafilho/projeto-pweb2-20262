@@ -47,6 +47,21 @@
   margin-top: var(--space-1);
 }
 
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-3);
+}
+
+.actions a {
+  display: flex;
+}
+
+.actions a > * {
+  flex: 1;
+}
+
 .anunciosSection {
   display: flex;
   flex-direction: column;
