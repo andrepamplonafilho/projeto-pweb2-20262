@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { ApiError, type ErrosPorCampo } from '../../shared/api/errors'
 import { api } from '../../shared/api/client'
 import type { AlterarEstadoRequest, AnuncioDetalhe, EstadoAnuncio } from '../../shared/api/tipos'
+import { logout, sessaoExpirada } from '../auth/authSlice'
 
 export type StatusRequisicao = 'ocioso' | 'carregando' | 'erro'
 
@@ -36,17 +37,16 @@ function extrairErro(erro: unknown): ErroAnuncio {
   return { mensagem: MENSAGEM_PADRAO, campos: {} }
 }
 
-export const buscarAnuncio = createAsyncThunk<
-  AnuncioDetalhe,
-  number,
-  { rejectValue: ErroAnuncio }
->('anuncios/buscar', async (id, { rejectWithValue, signal }) => {
-  try {
-    return await api<AnuncioDetalhe>(`/anuncios/${id}`, { signal })
-  } catch (erro) {
-    return rejectWithValue(extrairErro(erro))
-  }
-})
+export const buscarAnuncio = createAsyncThunk<AnuncioDetalhe, number, { rejectValue: ErroAnuncio }>(
+  'anuncios/buscar',
+  async (id, { rejectWithValue, signal }) => {
+    try {
+      return await api<AnuncioDetalhe>(`/anuncios/${id}`, { signal })
+    } catch (erro) {
+      return rejectWithValue(extrairErro(erro))
+    }
+  },
+)
 
 export const criarAnuncio = createAsyncThunk<
   AnuncioDetalhe,
@@ -119,6 +119,8 @@ const anunciosSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(logout.fulfilled, () => initialState)
+      .addCase(sessaoExpirada, () => initialState)
       .addCase(buscarAnuncio.pending, (state, action) => {
         state.busca.status = 'carregando'
         state.busca.erro = null
