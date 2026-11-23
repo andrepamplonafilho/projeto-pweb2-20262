@@ -8,6 +8,7 @@ type HeaderProps = {
 const links = [
   { to: '/vendas', label: 'Aulas pagas' },
   { to: '/doacoes', label: 'Aulas gratuitas' },
+  { to: '/anuncios/novo', label: 'Anunciar' },
   { to: '/perfil', label: 'Perfil' },
 ]
 
