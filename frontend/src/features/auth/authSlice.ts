@@ -11,6 +11,7 @@ export interface AuthState {
   status: StatusAuth
   erro: string | null
   campos: Record<string, string> // erros por campo vindos da API (ex.: { email: '...' })
+  restaurando: boolean // true enquanto há token salvo mas o usuário ainda não foi carregado
 }
 
 // O que os thunks entregam quando falham (chega em action.payload via rejectWithValue).
@@ -58,22 +59,21 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   tokenStorage.clear()
 })
 
-export const restaurarSessao = createAsyncThunk<
-  UsuarioLogado,
-  void,
-  { rejectValue: ErroAuth }
->('auth/restaurarSessao', async (_, { rejectWithValue }) => {
-  const token = tokenStorage.get()
-  if (!token) {
-    return rejectWithValue({ mensagem: 'Sem sessão ativa.', campos: {} })
-  }
+export const restaurarSessao = createAsyncThunk<UsuarioLogado, void, { rejectValue: ErroAuth }>(
+  'auth/restaurarSessao',
+  async (_, { rejectWithValue }) => {
+    const token = tokenStorage.get()
+    if (!token) {
+      return rejectWithValue({ mensagem: 'Sem sessão ativa.', campos: {} })
+    }
 
-  try {
-    return await api<UsuarioLogado>('/usuarios/eu')
-  } catch (erro) {
-    return rejectWithValue(extrairErro(erro))
-  }
-})
+    try {
+      return await api<UsuarioLogado>('/usuarios/eu')
+    } catch (erro) {
+      return rejectWithValue(extrairErro(erro))
+    }
+  },
+)
 
 // Reducers compartilhados: login e restaurar sessão vão reaproveitar estes mesmos.
 function comecou(state: AuthState) {
@@ -92,6 +92,7 @@ function restaurou(state: AuthState, action: { payload: UsuarioLogado }) {
   state.status = 'ocioso'
   state.usuario = action.payload
   state.token = tokenStorage.get()
+  state.restaurando = false
 }
 
 function falhou(state: AuthState, action: { payload?: ErroAuth }) {
@@ -106,12 +107,14 @@ function desautenticou(state: AuthState) {
   state.status = 'ocioso'
   state.erro = null
   state.campos = {}
+  state.restaurando = false
 }
 
 function restauracaoFalhou(state: AuthState) {
   state.status = 'ocioso'
   state.erro = null
   state.campos = {}
+  state.restaurando = false
 }
 
 const initialState: AuthState = {
@@ -120,6 +123,7 @@ const initialState: AuthState = {
   status: 'ocioso',
   erro: null,
   campos: {},
+  restaurando: tokenStorage.get() !== null,
 }
 
 const authSlice = createSlice({
