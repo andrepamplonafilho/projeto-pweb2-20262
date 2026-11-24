@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { Navigate, useNavigate, useParams } from 'react-router'
+import { useAppSelector } from '../../app/hooks'
 import { Avatar, Card, EmptyState, ErrorMessage, Pagination, Spinner } from '../../components/ui'
 import type { PageSize } from '../../components/ui/Pagination'
 import { api } from '../../shared/api/client'
@@ -13,7 +14,7 @@ interface ResultadoBuscaAnuncios {
   erro?: string
 }
 
-export default function PerfilUsuarioPage() {
+function PerfilUsuarioConteudo() {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const usuarioId = Number(id)
@@ -208,4 +209,15 @@ export default function PerfilUsuarioPage() {
       </section>
     </div>
   )
+}
+
+export default function PerfilUsuarioPage() {
+  const { id } = useParams<{ id: string }>()
+  const meuId = useAppSelector((s) => s.auth.usuario?.id)
+
+  if (meuId !== undefined && Number(id) === meuId) {
+    return <Navigate to="/perfil" replace />
+  }
+
+  return <PerfilUsuarioConteudo key={id} />
 }
