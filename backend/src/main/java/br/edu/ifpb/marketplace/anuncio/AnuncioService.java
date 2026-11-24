@@ -44,15 +44,15 @@ public class AnuncioService {
         this.armazenamento = armazenamento;
     }
 
-    /** Busca de vendas ou doações: só anúncios ativos. */
+    /** Busca de aulas pagas ou gratuitas: só aulas ativas. */
     public Pagina<AnuncioResumo> buscar(Modalidade modalidade, String categoria, BigDecimal precoMin,
             BigDecimal precoMax, Ordem ordem, Direcao direcao, Paginacao paginacao) {
         if (modalidade == Modalidade.doacao) {
             if (ordem == Ordem.preco) {
-                throw ErroApi.campoInvalido("ordem", "Doações só podem ser ordenadas por data.");
+                throw ErroApi.campoInvalido("ordem", "Aulas gratuitas só podem ser ordenadas por data.");
             }
             if (precoMin != null || precoMax != null) {
-                throw ErroApi.invalido("Doações não têm filtro de preço.");
+                throw ErroApi.invalido("Aulas gratuitas não têm filtro de preço.");
             }
         }
         if (precoMin != null && precoMin.signum() < 0) {
@@ -72,7 +72,7 @@ public class AnuncioService {
         return pagina(filtro, o, d, paginacao);
     }
 
-    /** Anúncios de um estudante: o dono vê todos; os demais, só os ativos. */
+    /** Aulas de um estudante: o dono vê todas; os demais, só as ativas. */
     public Pagina<AnuncioResumo> doUsuario(long usuarioId, long quemPede, Paginacao paginacao) {
         usuarios.perfil(usuarioId);
         var filtro = new FiltroAnuncios(null, null, null, null, usuarioId, usuarioId != quemPede);
@@ -81,7 +81,7 @@ public class AnuncioService {
 
     public AnuncioDetalhe detalhe(long id) {
         AnuncioRegistro a = anuncios.porId(id)
-                .orElseThrow(() -> ErroApi.naoEncontrado("Anúncio não encontrado."));
+                .orElseThrow(() -> ErroApi.naoEncontrado("Aula não encontrada."));
         List<FotoAnuncio> fotos = anuncios.fotos(id).stream()
                 .map(f -> new FotoAnuncio(f.id(), armazenamento.url(f.chave()), f.capa()))
                 .toList();
@@ -168,8 +168,8 @@ public class AnuncioService {
         AnuncioRegistro atual = doDono(usuarioId, id, "alterar o estado de");
         if (!estado.permitidoEm(atual.modalidade())) {
             throw ErroApi.campoInvalido("estado", atual.modalidade() == Modalidade.venda
-                    ? "Em vendas, o estado final é 'vendido'."
-                    : "Em doações, o estado final é 'concluido'.");
+                    ? "Em aulas pagas, o estado final é 'vendido'."
+                    : "Em aulas gratuitas, o estado final é 'concluido'.");
         }
         anuncios.atualizarEstado(id, estado);
         return detalhe(id);
@@ -192,26 +192,26 @@ public class AnuncioService {
 
     private AnuncioRegistro doDono(long usuarioId, long id, String acao) {
         AnuncioRegistro anuncio = anuncios.porId(id)
-                .orElseThrow(() -> ErroApi.naoEncontrado("Anúncio não encontrado."));
+                .orElseThrow(() -> ErroApi.naoEncontrado("Aula não encontrada."));
         if (anuncio.usuarioId() != usuarioId) {
-            throw ErroApi.proibido("Só o anunciante pode " + acao + " este anúncio.");
+            throw ErroApi.proibido("Só o responsável pode " + acao + " esta aula.");
         }
         return anuncio;
     }
 
-    /** Valida categoria e preço; devolve o preço em centavos ({@code null} em doações). */
+    /** Valida categoria e preço; devolve o preço em centavos ({@code null} em aulas gratuitas). */
     private Long validar(DadosAnuncio dados) {
         if (!catalogo.categoriaExiste(dados.categoriaId())) {
             throw ErroApi.campoInvalido("categoriaId", "Categoria não encontrada.");
         }
         if (dados.modalidade() == Modalidade.doacao) {
             if (dados.preco() != null) {
-                throw ErroApi.campoInvalido("preco", "Doações não têm preço; deixe em branco.");
+                throw ErroApi.campoInvalido("preco", "Aulas gratuitas não têm preço; deixe em branco.");
             }
             return null;
         }
         if (dados.preco() == null) {
-            throw ErroApi.campoInvalido("preco", "Obrigatório em vendas.");
+            throw ErroApi.campoInvalido("preco", "Obrigatório em aulas pagas.");
         }
         if (dados.preco().signum() <= 0) {
             throw ErroApi.campoInvalido("preco", "Deve ser maior que zero.");

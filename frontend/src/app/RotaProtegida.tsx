@@ -30,7 +30,7 @@ export default function RotaProtegida({ admin = false }: { admin?: boolean }) {
   }
 
   if (admin && usuario.papel !== 'administrador') {
-    return <Navigate to="/vendas" replace />
+    return <Navigate to="/pagos" replace />
   }
 
   return <Outlet />

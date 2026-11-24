@@ -63,8 +63,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}/anuncios")
-    @Operation(summary = "Anúncios de um estudante, mais recentes primeiro",
-            description = "O próprio estudante vê todos os seus anúncios; os demais veem só os ativos.")
+    @Operation(summary = "Aulas de um estudante, mais recentes primeiro",
+            description = "O próprio estudante vê todas as suas aulas; os demais veem só as ativas.")
     @ApiResponse(responseCode = "404", description = "Estudante não encontrado")
     public Pagina<AnuncioResumo> anuncios(
             @PathVariable long id,

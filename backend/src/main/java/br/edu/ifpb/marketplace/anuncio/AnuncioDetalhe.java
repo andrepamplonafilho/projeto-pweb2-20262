@@ -9,13 +9,13 @@ import br.edu.ifpb.marketplace.catalogo.Nivel;
 import br.edu.ifpb.marketplace.usuario.Perfil;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(description = "Anúncio completo")
+@Schema(description = "Aula completa")
 public record AnuncioDetalhe(
         long id,
         String titulo,
         String descricao,
         Modalidade modalidade,
-        @Schema(description = "Em reais; nulo em doações", example = "80.00", nullable = true) BigDecimal preco,
+        @Schema(description = "Em reais; nulo em aulas gratuitas", example = "80.00", nullable = true) BigDecimal preco,
         EstadoAnuncio estado,
         Nivel nivel,
         Categoria categoria,

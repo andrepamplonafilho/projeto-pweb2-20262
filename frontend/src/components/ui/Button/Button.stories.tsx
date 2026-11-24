@@ -32,7 +32,7 @@ export const Secundario: Story = {
 }
 
 export const Perigo: Story = {
-  args: { variant: 'danger', children: 'Remover anúncio' },
+  args: { variant: 'danger', children: 'Remover aula' },
 }
 
 export const Pequeno: Story = {

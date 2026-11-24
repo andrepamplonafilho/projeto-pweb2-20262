@@ -54,7 +54,7 @@ function parametrosDaApi(
 }
 
 function mensagemDoErro(erro: unknown): string {
-  return erro instanceof Error ? erro.message : 'Não foi possível carregar os anúncios.'
+  return erro instanceof Error ? erro.message : 'Não foi possível carregar as aulas.'
 }
 
 export default function BuscaPage() {
@@ -86,7 +86,7 @@ export default function BuscaPage() {
     return () => controller.abort()
   }, [])
 
-  // Busca de anúncios: refaz quando filtros mudam ou quando o usuário clica em "Tentar novamente"
+  // Busca de aulas: refaz quando filtros mudam ou quando o usuário clica em "Tentar novamente"
   useEffect(() => {
     if (faixaDePrecoInvalida) return
 
@@ -135,7 +135,7 @@ export default function BuscaPage() {
     <section className={styles.page} aria-labelledby="busca-titulo">
       <header className={styles.header}>
         <h1 id="busca-titulo">{modalidade === 'venda' ? 'Aulas pagas' : 'Aulas gratuitas'}</h1>
-        <p>Encontre anúncios ativos publicados por estudantes.</p>
+        <p>Encontre aulas disponíveis publicadas por estudantes.</p>
       </header>
 
       <div className={styles.content}>
@@ -220,19 +220,19 @@ export default function BuscaPage() {
           <div className={styles.resultsHeader}>
             <h2>
               {paginaAnuncios
-                ? `${paginaAnuncios.total} ${paginaAnuncios.total === 1 ? 'anúncio' : 'anúncios'}`
-                : 'Anúncios'}
+                ? `${paginaAnuncios.total} ${paginaAnuncios.total === 1 ? 'aula' : 'aulas'}`
+                : 'Aulas'}
             </h2>
           </div>
 
           <>
             {faixaDePrecoInvalida ? (
               <p className={styles.validationMessage} role="status">
-                Corrija a faixa de preço para buscar anúncios.
+                Corrija a faixa de preço para buscar aulas.
               </p>
             ) : carregando ? (
               <div className={styles.status}>
-                <Spinner label="Carregando anúncios" />
+                <Spinner label="Carregando aulas" />
               </div>
             ) : erro ? (
               <ErrorMessage message={erro} onRetry={() => setTentativa((t) => t + 1)} />
@@ -251,8 +251,8 @@ export default function BuscaPage() {
               </div>
             ) : (
               <EmptyState
-                title="Nenhum anúncio encontrado"
-                description="Tente mudar os filtros para encontrar outros anúncios."
+                title="Nenhuma aula encontrada"
+                description="Tente mudar os filtros para encontrar outras aulas."
               />
             )}
 

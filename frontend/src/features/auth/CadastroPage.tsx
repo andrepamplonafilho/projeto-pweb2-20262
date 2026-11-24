@@ -30,7 +30,7 @@ export default function CadastroPage() {
   }, [dispatch])
 
   // Quem já está logado (inclusive logo após cadastrar) vai para a página inicial
-  if (token) return <Navigate to="/vendas" replace />
+  if (token) return <Navigate to="/pagos" replace />
 
   const enviando = status === 'carregando'
 

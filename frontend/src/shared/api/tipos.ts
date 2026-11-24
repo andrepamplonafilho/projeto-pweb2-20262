@@ -87,7 +87,7 @@ export interface AnuncioResumo {
   id: number
   titulo: string
   modalidade: Modalidade
-  preco: number | null // nulo em doações
+  preco: number | null // nulo em aulas gratuitas
   estado: EstadoAnuncio
   nivel: Nivel
   categoria: Categoria
@@ -101,7 +101,7 @@ export interface AnuncioDetalhe {
   titulo: string
   descricao: string
   modalidade: Modalidade
-  preco: number | null // nulo em doações
+  preco: number | null // nulo em aulas gratuitas
   estado: EstadoAnuncio
   nivel: Nivel
   categoria: Categoria
@@ -122,17 +122,17 @@ export interface PaginaAnuncioResumo {
 }
 
 export interface AlterarEstadoRequest {
-  estado: EstadoAnuncio // `vendido` só em vendas; `concluido` só em doações
+  estado: EstadoAnuncio // `vendido` só em aulas pagas; `concluido` só em aulas gratuitas
 }
 
-// Os formulários de anúncio vão como multipart/form-data (FormData), não JSON.
+// Os formulários de aula vão como multipart/form-data (FormData), não JSON.
 // Estes tipos descrevem os campos que a tela monta antes de gerar o FormData.
 
 export interface NovoAnuncioForm {
   titulo: string // até 100
   descricao: string // até 2000
   modalidade: Modalidade
-  preco?: number // obrigatório em vendas; ausente em doações
+  preco?: number // obrigatório em aulas pagas; ausente em aulas gratuitas
   nivel: Nivel
   categoriaId: number
   localAula: string // até 200

@@ -22,7 +22,7 @@ public record EdicaoAnuncioForm(
         @NotNull(message = "Obrigatório.") Modalidade modalidade,
 
         @Digits(integer = 7, fraction = 2, message = "Use até 2 casas decimais.")
-        @Schema(description = "Preço por aula, em reais. Obrigatório em vendas; vazio em doações", example = "30.00") BigDecimal preco,
+        @Schema(description = "Preço por aula, em reais. Obrigatório em aulas pagas; vazio em aulas gratuitas", example = "30.00") BigDecimal preco,
 
         @NotNull(message = "Obrigatório.") Nivel nivel,
 

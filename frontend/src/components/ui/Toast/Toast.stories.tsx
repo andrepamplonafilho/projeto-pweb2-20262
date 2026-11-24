@@ -14,7 +14,7 @@ function AutoCloseDemo() {
       <ToastViewport>
         {open && (
           <Toast variant="success" title="Pronto!" duration={3000} onClose={() => setOpen(false)}>
-            Anúncio publicado. Some em 3 segundos.
+            Aula publicada. Some em 3 segundos.
           </Toast>
         )}
       </ToastViewport>

@@ -28,7 +28,7 @@ const meta: Meta<typeof ImageGallery> = {
     ],
     selectedSrc: image1,
     alt: 'Aula anunciada',
-    ariaLabel: 'Galeria de imagens do anúncio',
+    ariaLabel: 'Galeria de imagens da aula',
     onSelect: () => {},
   },
 }
@@ -43,6 +43,6 @@ export const SemImagens: Story = {
   args: {
     images: [],
     selectedSrc: undefined,
-    emptyMessage: 'Este anúncio não tem fotos.',
+    emptyMessage: 'Esta aula não tem fotos.',
   },
 }

@@ -54,20 +54,20 @@ export default function AnuncioDetalhePage() {
 
   if (!Number.isSafeInteger(id) || id < 1) {
     return (
-      <ErrorMessage title="Anúncio inválido" message="O identificador do anúncio é inválido." />
+      <ErrorMessage title="Aula inválida" message="O identificador da aula é inválido." />
     )
   }
   if (statusBusca === 'carregando' || (statusAuth === 'carregando' && !usuario)) {
     return (
       <div className={styles.loading}>
-        <Spinner label="Carregando anúncio" />
+        <Spinner label="Carregando aula" />
       </div>
     )
   }
   if (statusBusca === 'erro') {
     return (
       <ErrorMessage
-        title="Não foi possível carregar o anúncio"
+        title="Não foi possível carregar a aula"
         message={erroBusca ?? 'Tente novamente.'}
         onRetry={() => void dispatch(buscarAnuncio(id))}
       />
@@ -76,7 +76,7 @@ export default function AnuncioDetalhePage() {
   if (!anuncio)
     return (
       <div className={styles.loading}>
-        <Spinner label="Carregando anúncio" />
+        <Spinner label="Carregando aula" />
       </div>
     )
 
@@ -91,7 +91,7 @@ export default function AnuncioDetalhePage() {
   const fotoSelecionadaAtual = fotoSelecionada?.id === anuncio.id ? fotoSelecionada.src : fotoCapa
   const estadoSelecionadoAtual =
     estadoSelecionado?.id === anuncio.id ? estadoSelecionado.estado : anuncio.estado
-  const rotaVoltar = anuncio.modalidade === 'venda' ? '/vendas' : '/doacoes'
+  const rotaVoltar = anuncio.modalidade === 'venda' ? '/pagos' : '/doacoes'
 
   return (
     <article className={styles.page}>
@@ -107,7 +107,7 @@ export default function AnuncioDetalhePage() {
           }
         }}
       >
-        ← Voltar para {anuncio.modalidade === 'venda' ? 'vendas' : 'doações'}
+        ← Voltar para {anuncio.modalidade === 'venda' ? 'aulas pagas' : 'aulas gratuitas'}
       </Link>
       <div className={styles.content}>
         <ImageGallery
@@ -115,12 +115,12 @@ export default function AnuncioDetalhePage() {
           selectedSrc={fotoSelecionadaAtual}
           alt={anuncio.titulo}
           ariaLabel="Galeria de fotos"
-          emptyMessage="Este anúncio não tem fotos"
+          emptyMessage="Esta aula não tem fotos"
           onSelect={(src) => setFotoSelecionada({ id: anuncio.id, src })}
         />
 
         <section className={styles.details}>
-          <p className={styles.modality}>{anuncio.modalidade === 'venda' ? 'À venda' : 'Doação'}</p>
+          <p className={styles.modality}>{anuncio.modalidade === 'venda' ? 'Aula paga' : 'Aula gratuita'}</p>
           <h1>{anuncio.titulo}</h1>
           {anuncio.modalidade === 'venda' && anuncio.preco !== null && (
             <p className={styles.price}>{moeda.format(anuncio.preco)}</p>
@@ -152,7 +152,7 @@ export default function AnuncioDetalhePage() {
           </section>
 
           <section className={styles.seller}>
-            <h2>Anunciante</h2>
+            <h2>Responsável pela aula</h2>
             <Link to={`/usuarios/${anuncio.anunciante.id}`} className={styles.sellerLink}>
               {anuncio.anunciante.nome}
             </Link>
@@ -168,13 +168,13 @@ export default function AnuncioDetalhePage() {
           </div>
 
           {anunciante && (
-            <section className={styles.ownerActions} aria-label="Ações do anunciante">
+            <section className={styles.ownerActions} aria-label="Ações da aula">
               <Link to={`/anuncios/${anuncio.id}/editar`} className={styles.editLink}>
-                Editar anúncio
+                Editar aula
               </Link>
               <div className={styles.stateControls}>
                 <Select
-                  aria-label="Novo estado do anúncio"
+                  aria-label="Novo estado da aula"
                   value={estadoSelecionadoAtual}
                   onChange={(evento) =>
                     setEstadoSelecionado({

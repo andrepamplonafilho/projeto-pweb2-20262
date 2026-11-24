@@ -92,11 +92,11 @@ function PerfilUsuarioConteudo() {
         </div>
       </header>
 
-      <section className={styles.anunciosSection} aria-label="Anúncios do estudante">
+      <section className={styles.anunciosSection} aria-label="Aulas do estudante">
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>Anúncios publicados</h2>
+          <h2 className={styles.sectionTitle}>Aulas publicadas</h2>
           <span className={styles.anunciosCount}>
-            {anuncios.dados ? `${anuncios.dados.total} anúncio(s) ativo(s)` : ''}
+            {anuncios.dados ? `${anuncios.dados.total} aula(s) ativa(s)` : ''}
           </span>
         </div>
 
@@ -109,11 +109,11 @@ function PerfilUsuarioConteudo() {
           onPaginaChange={anuncios.setPagina}
           onTamanhoChange={anuncios.alterarTamanho}
           onRetry={anuncios.recarregar}
-          rotuloCarregando="Carregando anúncios do estudante..."
-          tituloErro="Não foi possível carregar os anúncios"
+          rotuloCarregando="Carregando aulas do estudante..."
+          tituloErro="Não foi possível carregar as aulas"
           estadoVazio={
             <EmptyState
-              title="Nenhum anúncio disponível"
+              title="Nenhuma aula disponível"
               description="Este estudante não possui aulas ativas no momento."
             />
           }

@@ -13,10 +13,10 @@ const meta: Meta<typeof Layout> = {
   decorators: [
     (Story) => (
       <Provider store={store}>
-        <MemoryRouter initialEntries={['/vendas']}>
+        <MemoryRouter initialEntries={['/pagos']}>
           <Routes>
             <Route element={<Story />}>
-              <Route path="/vendas" element={<h1>Conteúdo da página de Aulas pagas</h1>} />
+              <Route path="/pagos" element={<h1>Conteúdo da página de Aulas pagas</h1>} />
               <Route path="/doacoes" element={<h1>Conteúdo da página de Aulas gratuitas</h1>} />
               <Route path="/perfil" element={<h1>Conteúdo do Perfil</h1>} />
             </Route>

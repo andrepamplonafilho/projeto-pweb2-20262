@@ -27,5 +27,5 @@ export const Grande: Story = {
 }
 
 export const ComRotuloPersonalizado: Story = {
-  args: { size: 'lg', label: 'Carregando anúncios' },
+  args: { size: 'lg', label: 'Carregando aulas' },
 }

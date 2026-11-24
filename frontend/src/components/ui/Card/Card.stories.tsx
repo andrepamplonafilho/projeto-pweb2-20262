@@ -45,9 +45,9 @@ export default meta
 
 type Story = StoryObj<typeof Card>
 
-export const Venda: Story = {}
+export const AulaPaga: Story = {}
 
-export const Doacao: Story = {
+export const AulaGratuita: Story = {
   args: {
     title: 'Matemática básica para o ENEM',
     modality: 'doacao',
@@ -63,7 +63,7 @@ export const ComEstado: Story = {
   args: { status: 'reservado' },
 }
 
-export const DoacaoConcluida: Story = {
+export const AulaGratuitaConcluida: Story = {
   args: {
     title: 'Mochila escolar',
     modality: 'doacao',

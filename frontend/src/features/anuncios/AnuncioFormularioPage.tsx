@@ -65,7 +65,7 @@ const camposIniciais: CamposFormulario = {
 const tamanhoMaximoFoto = 5 * 1024 * 1024
 
 function mensagemErro(erro: unknown) {
-  return erro instanceof ApiError ? erro.message : 'Não foi possível carregar as opções do anúncio.'
+  return erro instanceof ApiError ? erro.message : 'Não foi possível carregar as opções da aula.'
 }
 
 function preencherFormulario(anuncio: AnuncioDetalhe): CamposFormulario {
@@ -216,7 +216,7 @@ export default function AnuncioFormularioPage() {
       acimaDoLimite.length > 0 ? [`Arquivos acima de 5 MB: ${acimaDoLimite.join(', ')}.`] : []
 
     if (fotos.length + dentroDoLimite.length > 10) {
-      mensagens.push('O anúncio pode ter no máximo 10 fotos.')
+      mensagens.push('A aula pode ter no máximo 10 fotos.')
       setErroFotos(mensagens.join(' '))
       return
     }
@@ -258,7 +258,7 @@ export default function AnuncioFormularioPage() {
     if (campos.modalidade === 'venda') {
       const preco = Number(campos.preco)
       if (!campos.preco || !Number.isFinite(preco) || preco <= 0) {
-        novosErros.preco = 'Informe um preço válido para a venda.'
+        novosErros.preco = 'Informe um preço válido para o pagamento.'
       } else if (!/^\d{1,7}(\.\d{1,2})?$/.test(campos.preco)) {
         novosErros.preco = 'Use até 7 dígitos e 2 casas decimais.'
       }
@@ -267,7 +267,7 @@ export default function AnuncioFormularioPage() {
     if (!campos.categoriaId) novosErros.categoriaId = 'Selecione uma categoria.'
     if (!campos.localAula.trim()) novosErros.localAula = 'Informe o local da aula.'
     if (campos.localAula.length > 200) novosErros.localAula = 'Use no máximo 200 caracteres.'
-    if (fotos.length < 1 || fotos.length > 10) setErroFotos('O anúncio deve ter de 1 a 10 fotos.')
+    if (fotos.length < 1 || fotos.length > 10) setErroFotos('A aula deve ter de 1 a 10 fotos.')
     else if (!fotos.some((foto) => foto.chave === capa)) setErroFotos('Escolha uma foto de capa.')
     setErrosLocais(novosErros)
     return (
@@ -293,20 +293,20 @@ export default function AnuncioFormularioPage() {
 
   if (editando && (!Number.isSafeInteger(id) || id < 1)) {
     return (
-      <ErrorMessage title="Anúncio inválido" message="O identificador do anúncio é inválido." />
+      <ErrorMessage title="Aula inválida" message="O identificador da aula é inválido." />
     )
   }
   if (editando && (statusBusca === 'carregando' || (statusAuth === 'carregando' && !usuario))) {
     return (
       <div className={styles.loading}>
-        <Spinner label="Carregando anúncio" />
+        <Spinner label="Carregando aula" />
       </div>
     )
   }
   if (editando && statusBusca === 'erro') {
     return (
       <ErrorMessage
-        message={erroBusca ?? 'Não foi possível carregar o anúncio.'}
+        message={erroBusca ?? 'Não foi possível carregar a aula.'}
         onRetry={() => void dispatch(buscarAnuncio(id))}
       />
     )
@@ -320,14 +320,14 @@ export default function AnuncioFormularioPage() {
     return (
       <ErrorMessage
         title="Acesso não permitido"
-        message="Somente o anunciante pode editar este anúncio."
+        message="Somente o responsável pela aula pode editá-la."
       />
     )
   }
   if (editando && !anuncio) {
     return (
       <div className={styles.loading}>
-        <Spinner label="Carregando anúncio" />
+        <Spinner label="Carregando aula" />
       </div>
     )
   }
@@ -345,11 +345,11 @@ export default function AnuncioFormularioPage() {
 
   return (
     <section className={styles.page}>
-      <Link to={editando ? `/anuncios/${id}` : '/vendas'} className={styles.backLink}>
-        ← {editando ? 'Voltar ao anúncio' : 'Voltar'}
+      <Link to={editando ? `/anuncios/${id}` : '/pagos'} className={styles.backLink}>
+        ← {editando ? 'Voltar à aula' : 'Voltar'}
       </Link>
-      <h1>{editando ? 'Editar anúncio' : 'Novo anúncio'}</h1>
-      <p className={styles.subtitle}>Preencha os dados e publique seu anúncio imediatamente.</p>
+      <h1>{editando ? 'Editar aula' : 'Nova aula'}</h1>
+      <p className={styles.subtitle}>Preencha os dados e publique sua aula imediatamente.</p>
 
       <form className={styles.form} onSubmit={enviar} noValidate>
         {salvamento.erro && (
@@ -386,8 +386,8 @@ export default function AnuncioFormularioPage() {
             value={campos.modalidade}
             onChange={(evento) => alterarCampo('modalidade', evento.target.value)}
           >
-            <option value="venda">Venda</option>
-            <option value="doacao">Doação</option>
+            <option value="venda">Aula paga</option>
+            <option value="doacao">Aula gratuita</option>
           </Select>
         </Field>
         {campos.modalidade === 'venda' && (
@@ -464,7 +464,7 @@ export default function AnuncioFormularioPage() {
               <ImagePreviewCard
                 key={foto.chave}
                 src={foto.url}
-                alt={foto.tipo === 'nova' ? foto.arquivo.name : 'Foto do anúncio'}
+                alt={foto.tipo === 'nova' ? foto.arquivo.name : 'Foto da aula'}
                 selectionName="foto-capa"
                 selectionValue={foto.chave}
                 selectionLabel="Foto de capa"
@@ -487,7 +487,7 @@ export default function AnuncioFormularioPage() {
               ? 'Publicando...'
               : editando
                 ? 'Salvar alterações'
-                : 'Publicar anúncio'}
+                : 'Publicar aula'}
           </Button>
         </div>
       </form>

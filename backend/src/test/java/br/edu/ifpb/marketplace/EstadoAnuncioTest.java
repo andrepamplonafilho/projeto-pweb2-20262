@@ -55,7 +55,7 @@ class EstadoAnuncioTest extends IntegracaoBase {
         Resposta r = alterar(doacao, dono, "vendido");
 
         assertThat(r.status()).isEqualTo(400);
-        assertThat(r.<String>json("$.campos.estado")).isEqualTo("Em doações, o estado final é 'concluido'.");
+        assertThat(r.<String>json("$.campos.estado")).isEqualTo("Em aulas gratuitas, o estado final é 'concluido'.");
     }
 
     @Test

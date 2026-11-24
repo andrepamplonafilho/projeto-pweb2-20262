@@ -21,9 +21,9 @@ export default function LoginPage() {
     dispatch(limparErro())
   }, [dispatch])
 
-  // Já logado (ou login bem-sucedido): volta para a página de origem, ou /vendas
+  // Já logado (ou login bem-sucedido): volta para a página de origem, ou /pagos
   if (token) {
-    const origem = (location.state as { from?: string } | null)?.from ?? '/vendas'
+    const origem = (location.state as { from?: string } | null)?.from ?? '/pagos'
     return <Navigate to={origem} replace />
   }
 

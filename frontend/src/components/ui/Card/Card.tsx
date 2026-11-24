@@ -36,7 +36,7 @@ export function Card({ title, modality, price, coverUrl, status, to }: CardProps
       <div className={styles.body}>
         <h3 className={styles.title}>{title}</h3>
         {modality === 'doacao' ? (
-          <p className={styles.donation}>Gratuita</p>
+          <p className={styles.donation}>Aula gratuita</p>
         ) : (
           <p className={styles.price}>{price !== undefined ? currency.format(price) : ''}</p>
         )}

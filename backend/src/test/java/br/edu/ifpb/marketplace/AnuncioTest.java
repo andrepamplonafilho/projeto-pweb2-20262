@@ -85,7 +85,7 @@ class AnuncioTest extends IntegracaoBase {
         Resposta r = criar(campos().campo("modalidade", "venda").arquivo("fotos", foto("aula-01-1.jpg"), "a.jpg"));
 
         assertThat(r.status()).isEqualTo(400);
-        assertThat(r.<String>json("$.campos.preco")).isEqualTo("Obrigatório em vendas.");
+        assertThat(r.<String>json("$.campos.preco")).isEqualTo("Obrigatório em aulas pagas.");
     }
 
     @Test
@@ -93,7 +93,7 @@ class AnuncioTest extends IntegracaoBase {
         Resposta r = criar(campos().campo("modalidade", "doacao").campo("preco", 10)
                 .arquivo("fotos", foto("aula-01-1.jpg"), "a.jpg"));
 
-        assertThat(r.<String>json("$.campos.preco")).isEqualTo("Doações não têm preço; deixe em branco.");
+        assertThat(r.<String>json("$.campos.preco")).isEqualTo("Aulas gratuitas não têm preço; deixe em branco.");
     }
 
     @Test

@@ -5,7 +5,7 @@ const meta: Meta<typeof ErrorMessage> = {
   title: 'UI/ErrorMessage',
   component: ErrorMessage,
   args: {
-    message: 'Não foi possível carregar os anúncios. Verifique sua conexão.',
+    message: 'Não foi possível carregar as aulas. Verifique sua conexão.',
   },
 }
 
@@ -21,7 +21,7 @@ export const ComTentarNovamente: Story = {
 
 export const ComTituloPersonalizado: Story = {
   args: {
-    title: 'Anúncio não encontrado',
+    title: 'Aula não encontrada',
     message: 'Ele pode ter sido removido pelo administrador.',
   },
 }

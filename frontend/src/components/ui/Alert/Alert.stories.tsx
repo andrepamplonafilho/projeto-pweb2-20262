@@ -5,7 +5,7 @@ const meta: Meta<typeof Alert> = {
   title: 'UI/Alert',
   component: Alert,
   args: {
-    children: 'Seu anúncio foi atualizado.',
+    children: 'Sua aula foi atualizada.',
   },
   argTypes: {
     variant: {
@@ -20,18 +20,18 @@ export default meta
 type Story = StoryObj<typeof Alert>
 
 export const Informacao: Story = {
-  args: { variant: 'info', children: 'Você só vê anúncios do seu campus.' },
+  args: { variant: 'info', children: 'Você só vê aulas do seu campus.' },
 }
 
 export const Sucesso: Story = {
-  args: { variant: 'success', title: 'Pronto!', children: 'Anúncio publicado.' },
+  args: { variant: 'success', title: 'Pronto!', children: 'Aula publicada.' },
 }
 
 export const Aviso: Story = {
   args: {
     variant: 'warning',
     title: 'Atenção',
-    children: 'Este anúncio está pausado e não aparece nas buscas.',
+    children: 'Esta aula está pausada e não aparece nas buscas.',
   },
 }
 

@@ -5,7 +5,7 @@ const meta: Meta<typeof EmptyState> = {
   title: 'UI/EmptyState',
   component: EmptyState,
   args: {
-    title: 'Nenhum anúncio encontrado',
+    title: 'Nenhuma aula encontrada',
     description: 'Tente mudar os filtros ou volte mais tarde.',
   },
 }
@@ -18,9 +18,9 @@ export const Padrao: Story = {}
 
 export const ComAcao: Story = {
   args: {
-    title: 'Você ainda não tem anúncios',
+    title: 'Você ainda não tem aulas',
     description: 'Publique a primeira aula, paga ou gratuita.',
-    actionLabel: 'Criar anúncio',
+    actionLabel: 'Publicar aula',
     onAction: () => {},
   },
 }

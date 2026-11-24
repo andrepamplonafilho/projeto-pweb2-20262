@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/anuncios")
-@Tag(name = "Anúncios", description = "Busca, criação, edição e estado dos anúncios")
+@Tag(name = "Aulas", description = "Busca, criação, edição e estado das aulas")
 public class AnuncioController {
 
     private final AnuncioService service;
@@ -37,14 +37,14 @@ public class AnuncioController {
     }
 
     @GetMapping
-    @Operation(summary = "Busca de vendas ou de doações (só anúncios ativos)",
-            description = "Sem `ordem`, mostra os mais recentes primeiro. Em doações, só há ordenação por data "
+    @Operation(summary = "Busca de aulas pagas ou gratuitas (só aulas ativas)",
+            description = "Sem `ordem`, mostra os mais recentes primeiro. Nas aulas gratuitas, só há ordenação por data "
                     + "e não há filtro de preço.")
     public Pagina<AnuncioResumo> buscar(
             @Parameter(description = "`venda` ou `doacao`", required = true) @RequestParam Modalidade modalidade,
             @Parameter(description = "Slug da categoria", example = "computacao-e-programacao") @RequestParam(required = false) String categoria,
-            @Parameter(description = "Preço mínimo em reais (só vendas)") @RequestParam(required = false) BigDecimal precoMin,
-            @Parameter(description = "Preço máximo em reais (só vendas)") @RequestParam(required = false) BigDecimal precoMax,
+            @Parameter(description = "Preço mínimo em reais (só aulas pagas)") @RequestParam(required = false) BigDecimal precoMin,
+            @Parameter(description = "Preço máximo em reais (só aulas pagas)") @RequestParam(required = false) BigDecimal precoMax,
             @Parameter(description = "`data` (padrão) ou `preco`") @RequestParam(required = false) Ordem ordem,
             @Parameter(description = "`asc` ou `desc`. Padrão: `desc` para data e `asc` para preço")
             @RequestParam(required = false) Direcao direcao,
@@ -55,16 +55,16 @@ public class AnuncioController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Detalhe do anúncio, em qualquer estado")
-    @ApiResponse(responseCode = "404", description = "Anúncio não encontrado")
+    @Operation(summary = "Detalhe da aula, em qualquer estado")
+    @ApiResponse(responseCode = "404", description = "Aula não encontrada")
     public AnuncioDetalhe detalhe(@PathVariable long id) {
         return service.detalhe(id);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Cria um anúncio, já ativo",
-            description = "multipart/form-data com os campos do anúncio e de 1 a 10 arquivos no campo `fotos`.")
+    @Operation(summary = "Cria uma aula, já ativa",
+            description = "multipart/form-data com os campos da aula e de 1 a 10 arquivos no campo `fotos`.")
     @ApiResponse(responseCode = "201", description = "Criado")
     @ApiResponse(responseCode = "400", description = "Dados inválidos")
     @ApiResponse(responseCode = "413", description = "Foto com mais de 5 MB")
@@ -73,21 +73,21 @@ public class AnuncioController {
     }
 
     @PutMapping(path = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Edita um anúncio (só o anunciante)",
+    @Operation(summary = "Edita uma aula (só o responsável)",
             description = "Envia todos os campos de novo. `fotosMantidas` lista as fotos atuais que continuam; "
                     + "`fotos` traz as novas.")
     @ApiResponse(responseCode = "400", description = "Dados inválidos")
-    @ApiResponse(responseCode = "403", description = "Não é o anunciante")
-    @ApiResponse(responseCode = "404", description = "Anúncio não encontrado")
+    @ApiResponse(responseCode = "403", description = "Não é o responsável pela aula")
+    @ApiResponse(responseCode = "404", description = "Aula não encontrada")
     public AnuncioDetalhe editar(@PathVariable long id, @Valid @ModelAttribute EdicaoAnuncioForm form) {
         return service.editar(Sessao.usuarioId(), id, form);
     }
 
     @PatchMapping("/{id}/estado")
-    @Operation(summary = "Altera o estado do anúncio (só o anunciante)")
+    @Operation(summary = "Altera o estado da aula (só o responsável)")
     @ApiResponse(responseCode = "400", description = "Estado inválido para a modalidade")
-    @ApiResponse(responseCode = "403", description = "Não é o anunciante")
-    @ApiResponse(responseCode = "404", description = "Anúncio não encontrado")
+    @ApiResponse(responseCode = "403", description = "Não é o responsável pela aula")
+    @ApiResponse(responseCode = "404", description = "Aula não encontrada")
     public AnuncioDetalhe alterarEstado(@PathVariable long id, @Valid @RequestBody AlterarEstadoRequest dados) {
         return service.alterarEstado(Sessao.usuarioId(), id, dados.estado());
     }

@@ -6,16 +6,16 @@ type HeaderProps = {
 }
 
 const links = [
-  { to: '/vendas', label: 'Aulas pagas' },
+  { to: '/pagos', label: 'Aulas pagas' },
   { to: '/doacoes', label: 'Aulas gratuitas' },
-  { to: '/anuncios/novo', label: 'Anunciar' },
+  { to: '/anuncios/novo', label: 'Nova aula' },
   { to: '/perfil', label: 'Perfil' },
 ]
 
 export function Header({ onLogout }: HeaderProps) {
   return (
     <header className={styles.header}>
-      <NavLink to="/vendas" className={styles.brand}>
+      <NavLink to="/pagos" className={styles.brand}>
         Cursos e Aulas
       </NavLink>
 

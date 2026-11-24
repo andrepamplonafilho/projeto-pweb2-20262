@@ -45,7 +45,7 @@ export function useAnunciosDoUsuario(usuarioId: number | undefined) {
       .catch((erro: unknown) => {
         if (!controller.signal.aborted) {
           const mensagem =
-            erro instanceof Error ? erro.message : 'Não foi possível carregar os anúncios.'
+            erro instanceof Error ? erro.message : 'Não foi possível carregar as aulas.'
           setResultado({ chave: chaveRequisicao, erro: mensagem })
         }
       })

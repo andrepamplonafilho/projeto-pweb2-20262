@@ -7,7 +7,7 @@ const meta: Meta<typeof Header> = {
   component: Header,
   decorators: [
     (Story) => (
-      <MemoryRouter initialEntries={['/vendas']}>
+      <MemoryRouter initialEntries={['/pagos']}>
         <Story />
       </MemoryRouter>
     ),

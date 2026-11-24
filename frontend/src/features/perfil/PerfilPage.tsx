@@ -60,7 +60,7 @@ export default function PerfilPage() {
 
         <div className={styles.actions}>
           <Link to="/anuncios/novo">
-            <Button>Novo anúncio</Button>
+            <Button>Nova aula</Button>
           </Link>
           <Link to="/perfil/editar">
             <Button variant="secondary">Editar perfil</Button>
@@ -70,9 +70,9 @@ export default function PerfilPage() {
 
       <section className={styles.anunciosSection}>
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>Meus Anúncios</h2>
+          <h2 className={styles.sectionTitle}>Minhas aulas</h2>
           <span className={styles.anunciosCount}>
-            {anuncios.dados ? `${anuncios.dados.total} anúncio(s)` : ''}
+            {anuncios.dados ? `${anuncios.dados.total} aula(s)` : ''}
           </span>
         </div>
 
@@ -85,13 +85,13 @@ export default function PerfilPage() {
           onPaginaChange={anuncios.setPagina}
           onTamanhoChange={anuncios.alterarTamanho}
           onRetry={anuncios.recarregar}
-          rotuloCarregando="Carregando anúncios..."
-          tituloErro="Não foi possível carregar seus anúncios"
+          rotuloCarregando="Carregando aulas..."
+          tituloErro="Não foi possível carregar suas aulas"
           estadoVazio={
             <EmptyState
-              title="Nenhum anúncio publicado"
+              title="Nenhuma aula publicada"
               description="Você ainda não publicou nenhuma aula, paga ou gratuita."
-              actionLabel="Criar anúncio"
+              actionLabel="Publicar aula"
               onAction={() => navigate('/anuncios/novo')}
             />
           }
