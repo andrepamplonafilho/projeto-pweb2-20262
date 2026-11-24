@@ -1,7 +1,6 @@
 .page {
-  width: min(100% - 2rem, 76rem);
+  width: 100%;
   margin: 0 auto;
-  padding: var(--space-6) 0;
 }
 
 .backLink {
@@ -77,6 +76,7 @@
 .attributes dd {
   margin: 0;
   font-weight: var(--font-weight-medium);
+  overflow-wrap: anywhere;
 }
 
 .description,
@@ -139,10 +139,6 @@
 }
 
 @media (max-width: 36rem) {
-  .page {
-    width: min(100% - 1rem, 76rem);
-  }
-
   .attributes div {
     grid-template-columns: 1fr;
     gap: 0;

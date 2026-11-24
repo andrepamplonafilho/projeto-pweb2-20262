@@ -1,7 +1,7 @@
 .page {
-  width: min(100% - 2rem, 52rem);
+  width: 100%;
+  max-width: 52rem;
   margin: 0 auto;
-  padding: var(--space-6) 0;
 }
 
 .backLink {
@@ -72,10 +72,6 @@
 }
 
 @media (max-width: 36rem) {
-  .page {
-    width: min(100% - 1rem, 52rem);
-  }
-
   .form {
     padding: var(--space-3);
   }

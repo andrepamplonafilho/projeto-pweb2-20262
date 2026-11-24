@@ -56,3 +56,13 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+@media (pointer: coarse) {
+  .sm {
+    min-height: 2.5rem;
+  }
+
+  .md {
+    min-height: 2.75rem;
+  }
+}
