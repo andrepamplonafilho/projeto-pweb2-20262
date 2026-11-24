@@ -6,7 +6,7 @@ import { definirAoExpirarSessao } from '../shared/api/client'
 export const store = configureStore({ reducer: { auth, anuncios } })
 
 definirAoExpirarSessao(() => {
-	store.dispatch(sessaoExpirada())
+  store.dispatch(sessaoExpirada())
 })
 
 export type RootState = ReturnType<typeof store.getState>

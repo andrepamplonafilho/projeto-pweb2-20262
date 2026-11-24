@@ -16,7 +16,8 @@ export function useCursos() {
         if (ativo) setCursos(lista)
       })
       .catch((e) => {
-        if (ativo) setErro(e instanceof ApiError ? e.message : 'Não foi possível carregar os cursos.')
+        if (ativo)
+          setErro(e instanceof ApiError ? e.message : 'Não foi possível carregar os cursos.')
       })
       .finally(() => {
         if (ativo) setCarregando(false)
