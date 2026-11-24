@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 export type OrdemBusca = 'data' | 'preco'
@@ -15,6 +16,11 @@ export interface FiltrosBusca {
 }
 
 export type AtualizacaoFiltrosBusca = Partial<FiltrosBusca>
+
+export interface OpcoesAtualizacaoFiltros {
+  /** Substitui a entrada atual do histórico em vez de empilhar uma nova. */
+  replace?: boolean
+}
 
 const TAMANHOS_PAGINA: TamanhoPagina[] = [5, 10, 25, 50]
 
@@ -69,25 +75,31 @@ export function useFiltrosBusca() {
   const [searchParams, setSearchParams] = useSearchParams()
   const filtros = lerFiltrosBusca(searchParams)
 
-  function atualizarFiltros(atualizacao: AtualizacaoFiltrosBusca) {
-    setSearchParams((atuais) => {
-      const proximos = new URLSearchParams(atuais)
+  const atualizarFiltros = useCallback(
+    (atualizacao: AtualizacaoFiltrosBusca, opcoes?: OpcoesAtualizacaoFiltros) => {
+      setSearchParams(
+        (atuais) => {
+          const proximos = new URLSearchParams(atuais)
 
-      for (const [chave, valor] of Object.entries(atualizacao)) {
-        if (valor === undefined || valor === '') {
-          proximos.delete(chave)
-        } else {
-          proximos.set(chave, String(valor))
-        }
-      }
+          for (const [chave, valor] of Object.entries(atualizacao)) {
+            if (valor === undefined || valor === '') {
+              proximos.delete(chave)
+            } else {
+              proximos.set(chave, String(valor))
+            }
+          }
 
-      if (Object.keys(atualizacao).length > 0 && !Object.hasOwn(atualizacao, 'pagina')) {
-        proximos.set('pagina', '1')
-      }
+          if (Object.keys(atualizacao).length > 0 && !Object.hasOwn(atualizacao, 'pagina')) {
+            proximos.set('pagina', '1')
+          }
 
-      return proximos
-    })
-  }
+          return proximos
+        },
+        { replace: opcoes?.replace ?? false },
+      )
+    },
+    [setSearchParams],
+  )
 
   return { filtros, atualizarFiltros }
 }

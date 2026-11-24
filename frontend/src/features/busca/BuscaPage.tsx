@@ -63,6 +63,7 @@ export default function BuscaPage() {
   const { filtros, atualizarFiltros } = useFiltrosBusca()
   const [categorias, setCategorias] = useState<Categoria[]>([])
   const [resultadoBusca, setResultadoBusca] = useState<ResultadoBusca | null>(null)
+  const [tentativa, setTentativa] = useState(0)
 
   const faixaDePrecoInvalida =
     modalidade === 'venda' &&
@@ -70,34 +71,62 @@ export default function BuscaPage() {
     filtros.precoMax !== undefined &&
     filtros.precoMin > filtros.precoMax
   const parametrosDaBusca = parametrosDaApi(modalidade, filtros).toString()
+  const chaveRequisicao = `${parametrosDaBusca}#${tentativa}`
 
+  // F09: categorias são buscadas uma única vez e não derrubam a busca se falharem
+  useEffect(() => {
+    const controller = new AbortController()
+
+    api<Categoria[]>('/categorias', { signal: controller.signal })
+      .then(setCategorias)
+      .catch(() => {
+        if (!controller.signal.aborted) setCategorias([])
+      })
+
+    return () => controller.abort()
+  }, [])
+
+  // Busca de anúncios: refaz quando filtros mudam ou quando o usuário clica em "Tentar novamente"
   useEffect(() => {
     if (faixaDePrecoInvalida) return
 
     const controller = new AbortController()
     const params = new URLSearchParams(parametrosDaBusca)
 
-    Promise.all([
-      api<Categoria[]>('/categorias', { signal: controller.signal }),
-      api<PaginaAnuncioResumo>(`/anuncios?${params.toString()}`, { signal: controller.signal }),
-    ])
-      .then(([listaCategorias, resultado]) => {
-        setCategorias(listaCategorias)
-        setResultadoBusca({ chave: parametrosDaBusca, pagina: resultado })
+    api<PaginaAnuncioResumo>(`/anuncios?${params.toString()}`, { signal: controller.signal })
+      .then((resultado) => {
+        setResultadoBusca({ chave: chaveRequisicao, pagina: resultado })
       })
       .catch((erroDaBusca: unknown) => {
         if (!controller.signal.aborted) {
-          setResultadoBusca({ chave: parametrosDaBusca, erro: mensagemDoErro(erroDaBusca) })
+          setResultadoBusca({ chave: chaveRequisicao, erro: mensagemDoErro(erroDaBusca) })
         }
       })
 
     return () => controller.abort()
-  }, [parametrosDaBusca, faixaDePrecoInvalida])
+  }, [parametrosDaBusca, faixaDePrecoInvalida, chaveRequisicao])
 
-  const carregando = !faixaDePrecoInvalida && resultadoBusca?.chave !== parametrosDaBusca
-  const resultadoAtual = resultadoBusca?.chave === parametrosDaBusca ? resultadoBusca : null
+  const resultadoAtual = resultadoBusca?.chave === chaveRequisicao ? resultadoBusca : null
   const paginaAnuncios = resultadoAtual?.pagina
   const erro = resultadoAtual?.erro
+
+  // F08: página fora do intervalo (ex.: ?pagina=99) volta para a última página existente
+  const ultimaPagina = paginaAnuncios?.totalPaginas ?? 0
+  const redirecionando =
+    paginaAnuncios !== undefined &&
+    paginaAnuncios.itens.length === 0 &&
+    paginaAnuncios.total > 0 &&
+    ultimaPagina >= 1 &&
+    ultimaPagina < filtros.pagina
+
+  useEffect(() => {
+    if (redirecionando) {
+      atualizarFiltros({ pagina: ultimaPagina }, { replace: true })
+    }
+  }, [redirecionando, ultimaPagina, atualizarFiltros])
+
+  const carregando =
+    !faixaDePrecoInvalida && (resultadoBusca?.chave !== chaveRequisicao || redirecionando)
   const ordenarPor = `${filtros.ordem}-${filtros.direcao}`
   const ordenacaoAtual =
     modalidade === 'doacao' && filtros.ordem === 'preco' ? 'data-desc' : ordenarPor
@@ -206,7 +235,7 @@ export default function BuscaPage() {
                 <Spinner label="Carregando anúncios" />
               </div>
             ) : erro ? (
-              <ErrorMessage message={erro} onRetry={() => window.location.reload()} />
+              <ErrorMessage message={erro} onRetry={() => setTentativa((t) => t + 1)} />
             ) : paginaAnuncios?.itens.length ? (
               <div className={styles.grid}>
                 {paginaAnuncios.itens.map((anuncio: AnuncioResumo) => (
@@ -227,7 +256,7 @@ export default function BuscaPage() {
               />
             )}
 
-            {paginaAnuncios && !faixaDePrecoInvalida && !erro && (
+            {paginaAnuncios && !faixaDePrecoInvalida && !erro && !redirecionando && (
               <div className={styles.pagination}>
                 <Pagination
                   currentPage={filtros.pagina}
