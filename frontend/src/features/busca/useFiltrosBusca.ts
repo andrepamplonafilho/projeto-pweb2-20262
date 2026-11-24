@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 
 export type OrdemBusca = 'data' | 'preco'
 export type DirecaoBusca = 'asc' | 'desc'
