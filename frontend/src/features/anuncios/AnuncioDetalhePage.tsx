@@ -10,6 +10,9 @@ import styles from './AnuncioDetalhePage.module.css'
 const moeda = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
 const dataHora = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'medium' })
 
+// As URLs assinadas das fotos expiram em 1h; rebusca antes disso quando a aba volta a ficar visível.
+const REVALIDAR_APOS_MS = 30 * 60 * 1000
+
 export default function AnuncioDetalhePage() {
   const { id: idParam } = useParams()
   const id = Number(idParam)
@@ -31,8 +34,22 @@ export default function AnuncioDetalhePage() {
 
   useEffect(() => {
     if (!Number.isSafeInteger(id) || id < 1) return
-    const requisicao = dispatch(buscarAnuncio(id))
-    return () => requisicao.abort()
+    let requisicao = dispatch(buscarAnuncio(id))
+    let carregadoEm = Date.now()
+
+    const aoVoltar = () => {
+      if (document.visibilityState !== 'visible') return
+      if (Date.now() - carregadoEm < REVALIDAR_APOS_MS) return
+      requisicao.abort()
+      requisicao = dispatch(buscarAnuncio(id))
+      carregadoEm = Date.now()
+    }
+
+    document.addEventListener('visibilitychange', aoVoltar)
+    return () => {
+      document.removeEventListener('visibilitychange', aoVoltar)
+      requisicao.abort()
+    }
   }, [dispatch, id])
 
   if (!Number.isSafeInteger(id) || id < 1) {

@@ -9,6 +9,7 @@ import type { AtualizarUsuarioRequest, UsuarioLogado } from '../../shared/api/ti
 import { usuarioAtualizado } from '../auth/authSlice'
 import { useCursos } from '../auth/useCursos'
 import styles from './PerfilEditarPage.module.css'
+import { usePerfil } from './usePerfil'
 
 const TIPOS_ACEITOS = ['image/jpeg', 'image/png', 'image/webp']
 const TAMANHO_MAXIMO_BYTES = 5 * 1024 * 1024 // 5 MB
@@ -35,6 +36,8 @@ function PerfilEditarForm({ usuario }: PerfilEditarFormProps) {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { cursos, carregando: carregandoCursos, erro: erroCursos } = useCursos()
+  // A foto vem do perfil buscado ao abrir a tela: a URL assinada guardada no Redux expira em 1h.
+  const { perfil, recarregar: recarregarPerfil } = usePerfil(usuario.id)
 
   const [nome, setNome] = useState(usuario.nome)
   const [cursoId, setCursoId] = useState(usuario.curso?.id ? String(usuario.curso.id) : '')
@@ -140,6 +143,8 @@ function PerfilEditarForm({ usuario }: PerfilEditarFormProps) {
         dispatch(usuarioAtualizado(resultadoUsuario))
         cancelarFoto()
         fotoAtualizada = true
+        // Busca o perfil de novo para exibir a foto nova com uma URL assinada fresca.
+        recarregarPerfil()
       }
 
       const dadosAtualizados: AtualizarUsuarioRequest = {
@@ -172,7 +177,7 @@ function PerfilEditarForm({ usuario }: PerfilEditarFormProps) {
     }
   }
 
-  const fotoExibida = fotoPreview ?? usuario.fotoUrl
+  const fotoExibida = fotoPreview ?? perfil?.fotoUrl ?? null
 
   return (
     <div className={styles.container}>
