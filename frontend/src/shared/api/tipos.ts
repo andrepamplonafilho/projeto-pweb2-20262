@@ -29,7 +29,7 @@ export interface UsuarioLogado {
   id: number
   nome: string
   email: string
-  curso: Curso
+  curso: Curso | null
   telefone: string | null
   fotoUrl: string | null // URL assinada, expira em 1h: não guardar
   papel: Papel
