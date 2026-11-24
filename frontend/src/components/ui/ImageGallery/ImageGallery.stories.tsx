@@ -27,7 +27,7 @@ const meta: Meta<typeof ImageGallery> = {
       { id: 2, src: image2 },
     ],
     selectedSrc: image1,
-    alt: 'Item anunciado',
+    alt: 'Aula anunciada',
     ariaLabel: 'Galeria de imagens do anúncio',
     onSelect: () => {},
   },

@@ -3,17 +3,12 @@ import { Link, useParams } from 'react-router'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { Button, ErrorMessage, ImageGallery, Select, Spinner } from '../../components/ui'
 import type { EstadoAnuncio } from '../../shared/api/tipos'
+import { ROTULO_ESTADO, ROTULO_NIVEL } from '../../shared/rotulos'
 import { alterarEstadoAnuncio, buscarAnuncio } from './anunciosSlice'
 import styles from './AnuncioDetalhePage.module.css'
 
 const moeda = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
 const dataHora = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'medium' })
-
-function rotuloEstado(estado: EstadoAnuncio) {
-  if (estado === 'concluido') return 'Concluído'
-  if (estado === 'vendido') return 'Vendido'
-  return estado.charAt(0).toUpperCase() + estado.slice(1)
-}
 
 export default function AnuncioDetalhePage() {
   const { id: idParam } = useParams()
@@ -74,8 +69,7 @@ export default function AnuncioDetalhePage() {
     anuncio.modalidade === 'venda' ? 'vendido' : 'concluido',
   ]
   const fotoCapa = anuncio.fotos.find((foto) => foto.capa)?.url ?? anuncio.fotos[0]?.url ?? ''
-  const fotoSelecionadaAtual =
-    fotoSelecionada?.id === anuncio.id ? fotoSelecionada.src : fotoCapa
+  const fotoSelecionadaAtual = fotoSelecionada?.id === anuncio.id ? fotoSelecionada.src : fotoCapa
   const estadoSelecionadoAtual =
     estadoSelecionado?.id === anuncio.id ? estadoSelecionado.estado : anuncio.estado
 
@@ -103,7 +97,7 @@ export default function AnuncioDetalhePage() {
           {anuncio.modalidade === 'venda' && anuncio.preco !== null && (
             <p className={styles.price}>{moeda.format(anuncio.preco)}</p>
           )}
-          <p className={styles.state}>{rotuloEstado(anuncio.estado)}</p>
+          <p className={styles.state}>{ROTULO_ESTADO[anuncio.estado]}</p>
 
           <dl className={styles.attributes}>
             <div>
@@ -112,7 +106,7 @@ export default function AnuncioDetalhePage() {
             </div>
             <div>
               <dt>Nível</dt>
-              <dd>{anuncio.nivel}</dd>
+              <dd>{ROTULO_NIVEL[anuncio.nivel]}</dd>
             </div>
             <div>
               <dt>Local da aula</dt>
@@ -137,7 +131,7 @@ export default function AnuncioDetalhePage() {
           </section>
 
           <div className={styles.actions}>
-            <Button type="button" disabled title="Disponível na Etapa 3">
+            <Button type="button" disabled title="Disponível na Etapa 2">
               Tenho interesse
             </Button>
             <Button type="button" variant="secondary" disabled title="Disponível na Etapa 3">
@@ -163,7 +157,7 @@ export default function AnuncioDetalhePage() {
                 >
                   {estadosDisponiveis.map((estado) => (
                     <option key={estado} value={estado}>
-                      {rotuloEstado(estado)}
+                      {ROTULO_ESTADO[estado]}
                     </option>
                   ))}
                 </Select>

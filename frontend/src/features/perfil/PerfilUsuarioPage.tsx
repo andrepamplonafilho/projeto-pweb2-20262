@@ -169,7 +169,7 @@ export default function PerfilUsuarioPage() {
         {!carregandoAnuncios && !erroAnuncios && !temAnuncios && (
           <EmptyState
             title="Nenhum anúncio disponível"
-            description="Este estudante não possui itens ativos para venda ou doação no momento."
+            description="Este estudante não possui aulas ativas no momento."
           />
         )}
 

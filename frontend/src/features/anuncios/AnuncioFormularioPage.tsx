@@ -133,7 +133,7 @@ export default function AnuncioFormularioPage() {
   const [fotos, setFotos] = useState<FotoFormulario[]>([])
   const [capa, setCapa] = useState('')
   const [categorias, setCategorias] = useState<Categoria[]>([])
-  const [estados, setEstados] = useState<OpcaoNivel[]>([])
+  const [niveis, setNiveis] = useState<OpcaoNivel[]>([])
   const [erroCatalogo, setErroCatalogo] = useState<string | null>(null)
   const [carregandoCatalogo, setCarregandoCatalogo] = useState(true)
   const [errosLocais, setErrosLocais] = useState<ErrosFormulario>({})
@@ -144,14 +144,11 @@ export default function AnuncioFormularioPage() {
 
   useEffect(() => {
     let ativo = true
-    Promise.all([
-      api<Categoria[]>('/categorias'),
-      api<OpcaoNivel[]>('/niveis'),
-    ])
-      .then(([listaCategorias, listaEstados]) => {
+    Promise.all([api<Categoria[]>('/categorias'), api<OpcaoNivel[]>('/niveis')])
+      .then(([listaCategorias, listaNiveis]) => {
         if (!ativo) return
         setCategorias(listaCategorias)
-        setEstados(listaEstados)
+        setNiveis(listaNiveis)
         setCarregandoCatalogo(false)
       })
       .catch((erro: unknown) => {
@@ -259,8 +256,7 @@ export default function AnuncioFormularioPage() {
         novosErros.preco = 'Use até 7 dígitos e 2 casas decimais.'
       }
     }
-    if (!campos.nivel)
-      novosErros.nivel = 'Selecione o nível da aula.'
+    if (!campos.nivel) novosErros.nivel = 'Selecione o nível da aula.'
     if (!campos.categoriaId) novosErros.categoriaId = 'Selecione uma categoria.'
     if (!campos.localAula.trim()) novosErros.localAula = 'Informe o local da aula.'
     if (campos.localAula.length > 200) novosErros.localAula = 'Use no máximo 200 caracteres.'
@@ -398,19 +394,15 @@ export default function AnuncioFormularioPage() {
             />
           </Field>
         )}
-        <Field
-          label="Nível"
-          required
-          error={errosLocais.nivel || salvamento.campos.nivel}
-        >
+        <Field label="Nível" required error={errosLocais.nivel || salvamento.campos.nivel}>
           <Select
             value={campos.nivel}
             onChange={(evento) => alterarCampo('nivel', evento.target.value)}
           >
             <option value="">Selecione</option>
-            {estados.map((estado) => (
-              <option key={estado.valor} value={estado.valor}>
-                {estado.rotulo}
+            {niveis.map((nivel) => (
+              <option key={nivel.valor} value={nivel.valor}>
+                {nivel.rotulo}
               </option>
             ))}
           </Select>
