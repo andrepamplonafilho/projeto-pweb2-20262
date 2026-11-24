@@ -1,18 +1,10 @@
-import { useCallback, useEffect, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router'
 import { useAppSelector } from '../../app/hooks'
-import { Avatar, Card, EmptyState, ErrorMessage, Pagination, Spinner } from '../../components/ui'
-import type { PageSize } from '../../components/ui/Pagination'
-import { api } from '../../shared/api/client'
-import type { PaginaAnuncioResumo } from '../../shared/api/tipos'
+import { Avatar, EmptyState, ErrorMessage, Spinner } from '../../components/ui'
+import ListaAnunciosPerfil from './ListaAnunciosPerfil'
+import { useAnunciosDoUsuario } from './useAnunciosDoUsuario'
 import { usePerfil } from './usePerfil'
 import styles from './PerfilUsuarioPage.module.css'
-
-interface ResultadoBuscaAnuncios {
-  chave: string
-  dados?: PaginaAnuncioResumo
-  erro?: string
-}
 
 function PerfilUsuarioConteudo() {
   const navigate = useNavigate()
@@ -27,49 +19,7 @@ function PerfilUsuarioConteudo() {
     recarregar: recarregarPerfil,
   } = usePerfil(idValido ? usuarioId : undefined)
 
-  const [pagina, setPagina] = useState(1)
-  const [tamanho, setTamanho] = useState<PageSize>(10)
-  const [tentativa, setTentativa] = useState(0)
-  const [resultado, setResultado] = useState<ResultadoBuscaAnuncios | null>(null)
-
-  const chaveRequisicao = `${usuarioId}:${pagina}:${tamanho}:${tentativa}`
-
-  const recarregarAnuncios = useCallback(() => {
-    setTentativa((t) => t + 1)
-  }, [])
-
-  useEffect(() => {
-    if (!idValido) return
-
-    const controller = new AbortController()
-    const params = new URLSearchParams({
-      pagina: String(pagina),
-      tamanho: String(tamanho),
-    })
-
-    api<PaginaAnuncioResumo>(`/usuarios/${usuarioId}/anuncios?${params.toString()}`, {
-      signal: controller.signal,
-    })
-      .then((dados) => {
-        setResultado({ chave: chaveRequisicao, dados })
-      })
-      .catch((erro: unknown) => {
-        if (!controller.signal.aborted) {
-          const mensagem =
-            erro instanceof Error ? erro.message : 'Não foi possível carregar os anúncios.'
-          setResultado({ chave: chaveRequisicao, erro: mensagem })
-        }
-      })
-
-    return () => {
-      controller.abort()
-    }
-  }, [idValido, usuarioId, pagina, tamanho, chaveRequisicao])
-
-  const carregandoAnuncios = idValido && resultado?.chave !== chaveRequisicao
-  const resultadoAtual = resultado?.chave === chaveRequisicao ? resultado : null
-  const anunciosData = resultadoAtual?.dados ?? null
-  const erroAnuncios = resultadoAtual?.erro ?? null
+  const anuncios = useAnunciosDoUsuario(idValido ? usuarioId : undefined)
 
   if (!idValido) {
     return (
@@ -101,9 +51,6 @@ function PerfilUsuarioConteudo() {
   if (!perfil) {
     return null
   }
-
-  const temAnuncios = (anunciosData?.itens.length ?? 0) > 0
-  const precisaPaginacao = (anunciosData?.totalPaginas ?? 0) > 1
 
   return (
     <div className={styles.container}>
@@ -149,63 +96,28 @@ function PerfilUsuarioConteudo() {
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>Anúncios publicados</h2>
           <span className={styles.anunciosCount}>
-            {anunciosData ? `${anunciosData.total} anúncio(s) ativo(s)` : ''}
+            {anuncios.dados ? `${anuncios.dados.total} anúncio(s) ativo(s)` : ''}
           </span>
         </div>
 
-        {carregandoAnuncios && (
-          <div className={styles.loading}>
-            <Spinner label="Carregando anúncios do estudante..." />
-          </div>
-        )}
-
-        {!carregandoAnuncios && erroAnuncios && (
-          <ErrorMessage
-            title="Não foi possível carregar os anúncios"
-            message={erroAnuncios}
-            onRetry={recarregarAnuncios}
-          />
-        )}
-
-        {!carregandoAnuncios && !erroAnuncios && !temAnuncios && (
-          <EmptyState
-            title="Nenhum anúncio disponível"
-            description="Este estudante não possui aulas ativas no momento."
-          />
-        )}
-
-        {!carregandoAnuncios && !erroAnuncios && temAnuncios && anunciosData && (
-          <>
-            <div className={styles.grid}>
-              {anunciosData.itens.map((anuncio) => (
-                <Card
-                  key={anuncio.id}
-                  title={anuncio.titulo}
-                  modality={anuncio.modalidade}
-                  price={anuncio.preco ?? undefined}
-                  coverUrl={anuncio.capaUrl}
-                  status={anuncio.estado}
-                  to={`/anuncios/${anuncio.id}`}
-                />
-              ))}
-            </div>
-
-            {precisaPaginacao && (
-              <div className={styles.pagination}>
-                <Pagination
-                  currentPage={pagina}
-                  totalPages={anunciosData.totalPaginas}
-                  pageSize={tamanho}
-                  onPageChange={(novaPagina) => setPagina(novaPagina)}
-                  onPageSizeChange={(novoTamanho) => {
-                    setTamanho(novoTamanho)
-                    setPagina(1)
-                  }}
-                />
-              </div>
-            )}
-          </>
-        )}
+        <ListaAnunciosPerfil
+          dados={anuncios.dados}
+          erro={anuncios.erro}
+          carregando={anuncios.carregando}
+          pagina={anuncios.pagina}
+          tamanho={anuncios.tamanho}
+          onPaginaChange={anuncios.setPagina}
+          onTamanhoChange={anuncios.alterarTamanho}
+          onRetry={anuncios.recarregar}
+          rotuloCarregando="Carregando anúncios do estudante..."
+          tituloErro="Não foi possível carregar os anúncios"
+          estadoVazio={
+            <EmptyState
+              title="Nenhum anúncio disponível"
+              description="Este estudante não possui aulas ativas no momento."
+            />
+          }
+        />
       </section>
     </div>
   )

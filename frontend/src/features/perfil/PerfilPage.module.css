@@ -86,24 +86,12 @@
   color: var(--color-text-secondary);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
-  gap: var(--space-5);
-}
-
 .loading,
 .status {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: var(--space-8);
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--space-4);
 }
 
 @media (max-width: 640px) {
