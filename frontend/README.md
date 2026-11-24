@@ -1,75 +1,72 @@
-# React + TypeScript + Vite
+# Cursos e Aulas — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface web do projeto Cursos e Aulas (PWEB2), feita com React, TypeScript e Vite.
 
-Currently, two official plugins are available:
+## Tecnologias
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 e TypeScript
+- Vite
+- Redux Toolkit e react-redux (estado global)
+- React Router (rotas)
+- Storybook (documentação e teste visual dos componentes)
+- ESLint e Prettier
 
-## React Compiler
+## Como rodar
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+O Vite mostra no terminal o endereço local (normalmente `http://localhost:5173`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Comando                   | O que faz                                        |
+| ------------------------- | ------------------------------------------------ |
+| `npm run dev`             | Servidor de desenvolvimento com HMR              |
+| `npm run build`           | Checagem de tipos (`tsc -b`) e build de produção |
+| `npm run preview`         | Serve o build de produção localmente             |
+| `npm run lint`            | Roda o ESLint                                    |
+| `npm run format`          | Formata `src` com o Prettier                     |
+| `npm run format:check`    | Verifica a formatação sem alterar arquivos       |
+| `npm run storybook`       | Abre o Storybook em `http://localhost:6006`      |
+| `npm run build-storybook` | Gera a versão estática do Storybook              |
+
+Antes de cada commit, rode `npm run build` e `npm run lint`.
+
+## Storybook
+
+```bash
+npm run storybook
+```
+
+Os componentes de `src/components/ui` têm stories ao lado do código (`*.stories.tsx`). A configuração fica em `.storybook/` (`main.ts` e `preview.tsx`).
+
+## Estrutura de pastas
 
 ```
+src/
+├── app/          # store, hooks tipados, rotas e RotaProtegida
+├── assets/       # imagens e arquivos estáticos
+├── components/
+│   ├── layout/   # Header e estrutura de página
+│   └── ui/       # componentes reutilizáveis (Button, Badge, Avatar, ...)
+├── features/     # uma pasta por funcionalidade
+│   ├── anuncios/ # detalhe e formulário de anúncios
+│   ├── auth/     # login, sessão e authSlice
+│   ├── busca/    # busca e filtros (/vendas, /doacoes)
+│   └── perfil/   # perfil próprio, perfil de outros usuários e edição
+├── shared/
+│   ├── api/      # cliente HTTP e tipos da API
+│   ├── components/
+│   ├── hooks/
+│   └── rotulos.ts  # rótulos de nível e estado de anúncio
+├── styles/       # estilos globais
+└── main.tsx      # ponto de entrada
+```
+
+## Convenções
+
+- Rótulos exibidos ao usuário (nível, estado) vêm de `src/shared/rotulos.ts`, para não divergir entre telas.
