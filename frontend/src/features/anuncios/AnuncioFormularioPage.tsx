@@ -136,6 +136,7 @@ export default function AnuncioFormularioPage() {
   const [niveis, setNiveis] = useState<OpcaoNivel[]>([])
   const [erroCatalogo, setErroCatalogo] = useState<string | null>(null)
   const [carregandoCatalogo, setCarregandoCatalogo] = useState(true)
+  const [tentativaCatalogo, setTentativaCatalogo] = useState(0)
   const [errosLocais, setErrosLocais] = useState<ErrosFormulario>({})
   const [erroFotos, setErroFotos] = useState<string | null>(null)
   const [anuncioInicializado, setAnuncioInicializado] = useState<number | null>(null)
@@ -159,7 +160,13 @@ export default function AnuncioFormularioPage() {
     return () => {
       ativo = false
     }
-  }, [])
+  }, [tentativaCatalogo])
+
+  const tentarCatalogoNovamente = () => {
+    setErroCatalogo(null)
+    setCarregandoCatalogo(true)
+    setTentativaCatalogo((t) => t + 1)
+  }
 
   useEffect(() => {
     if (!editando || !Number.isSafeInteger(id) || id < 1) return
@@ -333,7 +340,7 @@ export default function AnuncioFormularioPage() {
     )
   }
   if (erroCatalogo) {
-    return <ErrorMessage message={erroCatalogo} onRetry={() => window.location.reload()} />
+    return <ErrorMessage message={erroCatalogo} onRetry={tentarCatalogoNovamente} />
   }
 
   return (

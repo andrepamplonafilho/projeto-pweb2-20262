@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { Link, useLocation, useNavigate, useParams } from 'react-router'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { Button, ErrorMessage, ImageGallery, Select, Spinner } from '../../components/ui'
 import type { EstadoAnuncio } from '../../shared/api/tipos'
@@ -13,6 +13,8 @@ const dataHora = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'medium' })
 export default function AnuncioDetalhePage() {
   const { id: idParam } = useParams()
   const id = Number(idParam)
+  const navigate = useNavigate()
+  const location = useLocation()
   const dispatch = useAppDispatch()
   const anuncioRedux = useAppSelector((state) => state.anuncios.detalhe)
   const statusBusca = useAppSelector((state) => state.anuncios.busca.status)
@@ -72,12 +74,21 @@ export default function AnuncioDetalhePage() {
   const fotoSelecionadaAtual = fotoSelecionada?.id === anuncio.id ? fotoSelecionada.src : fotoCapa
   const estadoSelecionadoAtual =
     estadoSelecionado?.id === anuncio.id ? estadoSelecionado.estado : anuncio.estado
+  const rotaVoltar = anuncio.modalidade === 'venda' ? '/vendas' : '/doacoes'
 
   return (
     <article className={styles.page}>
       <Link
-        to={anuncio.modalidade === 'venda' ? '/vendas' : '/doacoes'}
+        to={rotaVoltar}
         className={styles.backLink}
+        onClick={(evento) => {
+          // Se há histórico dentro do app, volta preservando os filtros da busca.
+          // Em acesso direto (location.key === 'default'), usa a rota fixa como fallback.
+          if (location.key !== 'default') {
+            evento.preventDefault()
+            navigate(-1)
+          }
+        }}
       >
         ← Voltar para {anuncio.modalidade === 'venda' ? 'vendas' : 'doações'}
       </Link>
