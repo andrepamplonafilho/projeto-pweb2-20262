@@ -1,0 +1,24 @@
+.filtros {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.priceFields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+@media (max-width: 40rem) {
+  .filtros {
+    gap: var(--space-4);
+  }
+
+  /* preço mínimo e máximo lado a lado no celular */
+  .priceFields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}

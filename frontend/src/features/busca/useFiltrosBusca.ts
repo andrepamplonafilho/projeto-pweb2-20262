@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router'
 export type OrdemBusca = 'data' | 'preco'
 export type DirecaoBusca = 'asc' | 'desc'
 export type TamanhoPagina = 5 | 10 | 25 | 50
+export type ModalidadeBusca = 'venda' | 'doacao'
 
 export interface FiltrosBusca {
   categoria?: string
@@ -20,6 +21,13 @@ export type AtualizacaoFiltrosBusca = Partial<FiltrosBusca>
 export interface OpcoesAtualizacaoFiltros {
   /** Substitui a entrada atual do histórico em vez de empilhar uma nova. */
   replace?: boolean
+}
+
+/** Rotas que exibem a busca com filtros. */
+export const ROTAS_DE_BUSCA = ['/pagos', '/doacoes']
+
+export function modalidadeDaRota(pathname: string): ModalidadeBusca {
+  return pathname === '/doacoes' ? 'doacao' : 'venda'
 }
 
 const TAMANHOS_PAGINA: TamanhoPagina[] = [5, 10, 25, 50]
