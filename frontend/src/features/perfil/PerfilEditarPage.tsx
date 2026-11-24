@@ -2,7 +2,17 @@ import { useEffect, useRef, useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { Alert, Avatar, Button, Field, Input, Select, Spinner } from '../../components/ui'
+import {
+  Alert,
+  Avatar,
+  Button,
+  Field,
+  Input,
+  Select,
+  Spinner,
+  Toast,
+  ToastViewport,
+} from '../../components/ui'
 import { api } from '../../shared/api/client'
 import { ApiError } from '../../shared/api/errors'
 import type { AtualizarUsuarioRequest, UsuarioLogado } from '../../shared/api/tipos'
@@ -191,9 +201,11 @@ function PerfilEditarForm({ usuario }: PerfilEditarFormProps) {
       </header>
 
       {mensagemSucesso && (
-        <Alert variant="success" onClose={() => setMensagemSucesso(null)}>
-          {mensagemSucesso}
-        </Alert>
+        <ToastViewport>
+          <Toast variant="success" onClose={() => setMensagemSucesso(null)}>
+            {mensagemSucesso}
+          </Toast>
+        </ToastViewport>
       )}
 
       {mensagemErro && (
