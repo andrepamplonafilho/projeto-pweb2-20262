@@ -1,29 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router'
-import {
-  Card,
-  EmptyState,
-  ErrorMessage,
-  Field,
-  Input,
-  Pagination,
-  Select,
-  Spinner,
-} from '../../components/ui'
+import { Card, EmptyState, ErrorMessage, Pagination, Spinner } from '../../components/ui'
 import { api } from '../../shared/api/client'
-import type { AnuncioResumo, Categoria, PaginaAnuncioResumo } from '../../shared/api/tipos'
-import { useFiltrosBusca } from './useFiltrosBusca'
+import type { AnuncioResumo, PaginaAnuncioResumo } from '../../shared/api/tipos'
+import { FiltrosBusca } from './FiltrosBusca'
+import { modalidadeDaRota, useFiltrosBusca } from './useFiltrosBusca'
+import type { ModalidadeBusca } from './useFiltrosBusca'
 import styles from './BuscaPage.module.css'
 
-type ModalidadeBusca = 'venda' | 'doacao'
 type ResultadoBusca = {
   chave: string
   pagina?: PaginaAnuncioResumo
   erro?: string
-}
-
-function modalidadeDaRota(pathname: string): ModalidadeBusca {
-  return pathname === '/doacoes' ? 'doacao' : 'venda'
 }
 
 function parametrosDaApi(
@@ -61,7 +49,6 @@ export default function BuscaPage() {
   const location = useLocation()
   const modalidade = modalidadeDaRota(location.pathname)
   const { filtros, atualizarFiltros } = useFiltrosBusca()
-  const [categorias, setCategorias] = useState<Categoria[]>([])
   const [resultadoBusca, setResultadoBusca] = useState<ResultadoBusca | null>(null)
   const [tentativa, setTentativa] = useState(0)
 
@@ -72,19 +59,6 @@ export default function BuscaPage() {
     filtros.precoMin > filtros.precoMax
   const parametrosDaBusca = parametrosDaApi(modalidade, filtros).toString()
   const chaveRequisicao = `${parametrosDaBusca}#${tentativa}`
-
-  // F09: categorias são buscadas uma única vez e não derrubam a busca se falharem
-  useEffect(() => {
-    const controller = new AbortController()
-
-    api<Categoria[]>('/categorias', { signal: controller.signal })
-      .then(setCategorias)
-      .catch(() => {
-        if (!controller.signal.aborted) setCategorias([])
-      })
-
-    return () => controller.abort()
-  }, [])
 
   // Busca de aulas: refaz quando filtros mudam ou quando o usuário clica em "Tentar novamente"
   useEffect(() => {
@@ -127,9 +101,6 @@ export default function BuscaPage() {
 
   const carregando =
     !faixaDePrecoInvalida && (resultadoBusca?.chave !== chaveRequisicao || redirecionando)
-  const ordenarPor = `${filtros.ordem}-${filtros.direcao}`
-  const ordenacaoAtual =
-    modalidade === 'doacao' && filtros.ordem === 'preco' ? 'data-desc' : ordenarPor
 
   return (
     <section className={styles.page} aria-labelledby="busca-titulo">
@@ -139,81 +110,10 @@ export default function BuscaPage() {
       </header>
 
       <div className={styles.content}>
+        {/* No celular os filtros ficam no menu (☰) do cabeçalho */}
         <aside className={styles.filters} aria-label="Filtros da busca">
           <h2>Filtros</h2>
-          <Field label="Categoria">
-            <Select
-              value={filtros.categoria ?? ''}
-              onChange={(event) => atualizarFiltros({ categoria: event.target.value || undefined })}
-            >
-              <option value="">Todas as categorias</option>
-              {categorias.map((categoria) => (
-                <option key={categoria.id} value={categoria.slug}>
-                  {categoria.nome}
-                </option>
-              ))}
-            </Select>
-          </Field>
-
-          {modalidade === 'venda' && (
-            <div className={styles.priceFields}>
-              <Field label="Preço mínimo (R$)">
-                <Input
-                  type="number"
-                  min="0"
-                  step="any"
-                  value={filtros.precoMin ?? ''}
-                  onChange={(event) =>
-                    atualizarFiltros({
-                      precoMin: event.target.value === '' ? undefined : Number(event.target.value),
-                    })
-                  }
-                />
-              </Field>
-              <Field
-                label="Preço máximo (R$)"
-                error={
-                  faixaDePrecoInvalida
-                    ? 'O máximo deve ser igual ou maior que o mínimo.'
-                    : undefined
-                }
-              >
-                <Input
-                  type="number"
-                  min="0"
-                  step="any"
-                  value={filtros.precoMax ?? ''}
-                  onChange={(event) =>
-                    atualizarFiltros({
-                      precoMax: event.target.value === '' ? undefined : Number(event.target.value),
-                    })
-                  }
-                />
-              </Field>
-            </div>
-          )}
-
-          <Field label="Ordenar por">
-            <Select
-              value={ordenacaoAtual}
-              onChange={(event) => {
-                const [ordem, direcao] = event.target.value.split('-') as [
-                  'data' | 'preco',
-                  'asc' | 'desc',
-                ]
-                atualizarFiltros({ ordem, direcao })
-              }}
-            >
-              <option value="data-desc">Mais recentes</option>
-              <option value="data-asc">Mais antigos</option>
-              {modalidade === 'venda' && (
-                <>
-                  <option value="preco-asc">Menor preço</option>
-                  <option value="preco-desc">Maior preço</option>
-                </>
-              )}
-            </Select>
-          </Field>
+          <FiltrosBusca modalidade={modalidade} />
         </aside>
 
         <div className={styles.results}>
