@@ -121,6 +121,10 @@ function PerfilEditarForm({ usuario }: PerfilEditarFormProps) {
 
     setSalvando(true)
 
+    // Indica que a foto já foi enviada com sucesso nesta tentativa.
+    // Se a segunda chamada falhar, o usuário precisa saber que a foto mudou.
+    let fotoAtualizada = false
+
     try {
       let resultadoUsuario: UsuarioLogado = usuario
 
@@ -135,6 +139,7 @@ function PerfilEditarForm({ usuario }: PerfilEditarFormProps) {
 
         dispatch(usuarioAtualizado(resultadoUsuario))
         cancelarFoto()
+        fotoAtualizada = true
       }
 
       const dadosAtualizados: AtualizarUsuarioRequest = {
@@ -151,12 +156,17 @@ function PerfilEditarForm({ usuario }: PerfilEditarFormProps) {
       dispatch(usuarioAtualizado(resultadoUsuario))
       setMensagemSucesso('Perfil atualizado com sucesso!')
     } catch (erro: unknown) {
-      if (erro instanceof ApiError) {
-        setMensagemErro(erro.message)
-        setErrosCampos(erro.campos ?? {})
-      } else {
-        setMensagemErro('Não foi possível salvar as alterações. Tente novamente.')
-      }
+      const mensagem =
+        erro instanceof ApiError
+          ? erro.message
+          : 'Não foi possível salvar as alterações. Tente novamente.'
+
+      setMensagemErro(
+        fotoAtualizada
+          ? `A foto foi atualizada, mas os dados não foram salvos: ${mensagem}`
+          : mensagem,
+      )
+      setErrosCampos(erro instanceof ApiError ? (erro.campos ?? {}) : {})
     } finally {
       setSalvando(false)
     }
